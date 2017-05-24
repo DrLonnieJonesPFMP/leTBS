@@ -47,6 +47,27 @@ SceneManager._boxWidth          = Lecode.WebCanvasControl.canvasWidth;
 SceneManager._boxHeight         = Lecode.WebCanvasControl.canvasHeigh;
 
 /*-------------------------------------------------------------------------
+* TouchInput
+-------------------------------------------------------------------------*/
+TouchInput.update = function() {
+    this._triggered = false;
+    this._cancelled = false;
+    this._moved = false;
+    this._released = false;
+    this._wheelX = 0;
+    this._wheelY = 0;
+    this._events.triggered = false;
+    this._events.cancelled = false;
+    this._events.moved = false;
+    this._events.released = false;
+    this._events.wheelX = 0;
+    this._events.wheelY = 0;
+    if (this.isPressed()) {
+        this._pressedTime++;
+    }
+};
+
+/*-------------------------------------------------------------------------
 * Graphics
 -------------------------------------------------------------------------*/
 /*Lecode.WebCanvasControl.oldGraphics_createAllElements = Graphics._createAllElements;
