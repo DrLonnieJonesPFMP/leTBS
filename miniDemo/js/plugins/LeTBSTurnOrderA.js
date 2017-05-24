@@ -137,7 +137,7 @@ TBSTurnOrderVisual.prototype.makeSprites = function () {
 };
 
 TBSTurnOrderVisual.prototype.getSpriteBitmap = function (entity) {
-	return ImageManager.loadLeTBSTurnOrder(entity.filenameID());
+	return ImageManager.loadLeTBSTurnOrder(Lecode.WebCanvasControl.folderPath + entity.filenameID());
 };
 
 TBSTurnOrderVisual.prototype.setPositions = function () {
