@@ -412,7 +412,7 @@ Window_TBSStatus.prototype.refresh = function () {
 };
 
 Window_TBSStatus.prototype.drawSprite = function (x, y) {
-    var bitmap = ImageManager.loadLeTBSStatus(Lecode.WebCanvasControl.folderPath + this._entity.filenameID() + "_Sprite");
+    var bitmap = ImageManager.loadLeTBSStatus(Lecode.WebCanvasControl.folderPath + '/' + this._entity.filenameID() + "_Sprite");
     var window = this;
     bitmap.addLoadListener(function () {
         var dx = eval(Lecode.S_TBS.Windows.statusWindowSpriteBoxW) / 2 - bitmap.width / 2;
