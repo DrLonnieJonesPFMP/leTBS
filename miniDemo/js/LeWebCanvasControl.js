@@ -49,12 +49,39 @@ SceneManager._boxHeight         = Lecode.WebCanvasControl.canvasHeigh;
 /*-------------------------------------------------------------------------
 * Graphics
 -------------------------------------------------------------------------*/
+Lecode.WebCanvasControl.oldGraphics_createAllElements = Graphics._createAllElements;
+Graphics._createAllElements = function() {
+    var parent = document.getElementById(Lecode.WebCanvasControl.canvasParentId);
+    parent.width = this._width;
+    parent.height = this._height;
+    Lecode.WebCanvasControl.oldGraphics_createAllElements.call(this);
+};
+
 Graphics._updateCanvas = function() {
     this._canvas.width = this._width;
     this._canvas.height = this._height;
     this._canvas.style.zIndex = 1;
     if (Lecode.WebCanvasControl.canvasCenter)
         this._centerElement(this._canvas);
+};
+
+Graphics._updateUpperCanvas = function() {
+    this._upperCanvas.width = this._width;
+    this._upperCanvas.height = this._height;
+    this._upperCanvas.style.zIndex = 3;
+    if (Lecode.WebCanvasControl.canvasCenter)
+        this._centerElement(this._upperCanvas);
+};
+
+Graphics._updateErrorPrinter = function() {
+    this._errorPrinter.width = this._width * 0.9;
+    this._errorPrinter.height = 40;
+    this._errorPrinter.style.textAlign = 'center';
+    this._errorPrinter.style.textShadow = '1px 1px 3px #000';
+    this._errorPrinter.style.fontSize = '20px';
+    this._errorPrinter.style.zIndex = 99;
+    if (Lecode.WebCanvasControl.canvasCenter)
+        this._centerElement(this._errorPrinter);
 };
 
 Graphics._createErrorPrinter = function() {
