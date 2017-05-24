@@ -65,13 +65,14 @@ Graphics._updateCanvas = function() {
     if (Lecode.WebCanvasControl.canvasCenter)
         this._centerElement(this._canvas);
 };
-/*
+
 Graphics._updateUpperCanvas = function() {
     this._upperCanvas.width = this._width;
     this._upperCanvas.height = this._height;
     this._upperCanvas.style.zIndex = 3;
-    if (Lecode.WebCanvasControl.canvasCenter)
+    //if (Lecode.WebCanvasControl.canvasCenter)
         this._centerElement(this._upperCanvas);
+    this._upperCanvas.style.top = String(-Lecode.WebCanvasControl.canvasHeigh*2) + "px";
 };
 
 Graphics._updateErrorPrinter = function() {
@@ -81,9 +82,10 @@ Graphics._updateErrorPrinter = function() {
     this._errorPrinter.style.textShadow = '1px 1px 3px #000';
     this._errorPrinter.style.fontSize = '20px';
     this._errorPrinter.style.zIndex = 99;
-    if (Lecode.WebCanvasControl.canvasCenter)
+    //if (Lecode.WebCanvasControl.canvasCenter)
         this._centerElement(this._errorPrinter);
-};*/
+    this._errorPrinter.style.top = String(-Lecode.WebCanvasControl.canvasHeigh*2) + "px";
+};
 
 Graphics._createErrorPrinter = function() {
     this._errorPrinter = document.createElement('p');
