@@ -78,7 +78,7 @@ Graphics._createAllElements = function() {
     console(parent.style);
     Lecode.WebCanvasControl.oldGraphics_createAllElements.call(this);
 };*/
-
+/*
 Graphics._updateCanvas = function() {
     this._canvas.width = this._width;
     this._canvas.height = this._height;
@@ -212,7 +212,7 @@ Graphics._requestFullScreen = function() {
         element.msRequestFullscreen();
     }
 };
-
+*/
 /*-------------------------------------------------------------------------
 * DataManager
 -------------------------------------------------------------------------*/
