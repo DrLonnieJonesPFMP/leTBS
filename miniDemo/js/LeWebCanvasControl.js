@@ -54,6 +54,7 @@ Graphics._createAllElements = function() {
     var parent = document.getElementById(Lecode.WebCanvasControl.canvasParentId);
     parent.style.width = this._width;
     parent.style.height = this._height;
+    console(parent.style);
     Lecode.WebCanvasControl.oldGraphics_createAllElements.call(this);
 };
 
@@ -64,7 +65,7 @@ Graphics._updateCanvas = function() {
     if (Lecode.WebCanvasControl.canvasCenter)
         this._centerElement(this._canvas);
 };
-
+/*
 Graphics._updateUpperCanvas = function() {
     this._upperCanvas.width = this._width;
     this._upperCanvas.height = this._height;
@@ -82,7 +83,7 @@ Graphics._updateErrorPrinter = function() {
     this._errorPrinter.style.zIndex = 99;
     if (Lecode.WebCanvasControl.canvasCenter)
         this._centerElement(this._errorPrinter);
-};
+};*/
 
 Graphics._createErrorPrinter = function() {
     this._errorPrinter = document.createElement('p');
