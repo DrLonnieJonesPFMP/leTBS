@@ -205,5 +205,5 @@ TBSTurnOrderVisual.prototype.updateOrderState = function () {
 * ImageManager
 -------------------------------------------------------------------------*/
 ImageManager.loadLeTBSTurnOrder = function (filename, hue) {
-    return this.loadBitmap(Lecode.WebCanvasControl.folderPath + 'img/leTBS/TurnOrder/', filename, hue, true);
+    return this.loadBitmap(Lecode.WebCanvasControl.folderPath + 'img/LeTBS/TurnOrder/', filename, hue, true);
 };
