@@ -77,13 +77,6 @@ Lecode.S_TBS.Config.Projectiles = {
         jump: 0
     },
 
-    "phantom_slash": {
-        anim: [149, 56, 50],
-        adapt_angle: true,
-        speed: 9,
-        jump: 0
-    },
-
     "shuriken": {
         filename: "Shuriken",
         adapt_angle: true,
@@ -114,8 +107,8 @@ Lecode.S_TBS.Config.Summons = {
         id: 10,
         tied_to_caster: true,
         stats: {
-            default: "70%",
-            mhp: "30%",
+            default: "90%",
+            mhp: "70%",
             mmp: "+10%"
         }
     }
