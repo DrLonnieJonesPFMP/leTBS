@@ -9429,19 +9429,19 @@ DataManager.processLeTBSTagsForObjects = function () {
 * ImageManager
 -------------------------------------------------------------------------*/
 ImageManager.loadLeTBS = function (filename, hue) {
-    return this.loadBitmap(Lecode.WebCanvasControl.folderPath + 'img/leTBS/', filename, hue, true);
+    return this.loadBitmap(Lecode.WebCanvasControl.folderPath + 'img/LeTBS/', filename, hue, true);
 };
 
 ImageManager.loadLeTBSBattler = function (filename, hue) {
-    return this.loadBitmap(Lecode.WebCanvasControl.folderPath + 'img/leTBS/Battlers/', filename, hue, true);
+    return this.loadBitmap(Lecode.WebCanvasControl.folderPath + 'img/LeTBS/Battlers/', filename, hue, true);
 };
 
 ImageManager.loadLeTBSStatus = function (filename, hue) {
-    return this.loadBitmap(Lecode.WebCanvasControl.folderPath + 'img/leTBS/Status/', filename, hue, true);
+    return this.loadBitmap(Lecode.WebCanvasControl.folderPath + 'img/LeTBS/Status/', filename, hue, true);
 };
 
 ImageManager.loadLeTBSProjectile = function (filename, hue) {
-    return this.loadBitmap(Lecode.WebCanvasControl.folderPath + 'img/leTBS/Projectiles/', filename, hue, true);
+    return this.loadBitmap(Lecode.WebCanvasControl.folderPath + 'img/LeTBS/Projectiles/', filename, hue, true);
 };
 
 ImageManager.loadLeTBS("Battle_Start");
