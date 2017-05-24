@@ -49,14 +49,14 @@ SceneManager._boxHeight         = Lecode.WebCanvasControl.canvasHeigh;
 /*-------------------------------------------------------------------------
 * Graphics
 -------------------------------------------------------------------------*/
-Lecode.WebCanvasControl.oldGraphics_createAllElements = Graphics._createAllElements;
+/*Lecode.WebCanvasControl.oldGraphics_createAllElements = Graphics._createAllElements;
 Graphics._createAllElements = function() {
     var parent = document.getElementById(Lecode.WebCanvasControl.canvasParentId);
     parent.style.width = this._width;
     parent.style.height = this._height;
     console(parent.style);
     Lecode.WebCanvasControl.oldGraphics_createAllElements.call(this);
-};
+};*/
 
 Graphics._updateCanvas = function() {
     this._canvas.width = this._width;
