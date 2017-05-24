@@ -110,7 +110,7 @@ BattleManagerTBS.updateTurnOrderForSummon = function (caster, summon, type) {
         }
     }
     setTimeout(this._turnOrderVisual.updateOnSummon.bind(this._turnOrderVisual,
-        this._turnOrder, this._activeIndex), 300);
+        this._turnOrder, this._activeIndex), 1000);
 };
 
 BattleManagerTBS.onActiveSummonDeath = function (entity) {
