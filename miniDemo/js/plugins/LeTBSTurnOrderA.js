@@ -137,7 +137,7 @@ TBSTurnOrderVisual.prototype.makeSprites = function () {
 };
 
 TBSTurnOrderVisual.prototype.getSpriteBitmap = function (entity) {
-	return ImageManager.loadLeTBSTurnOrder(Lecode.WebCanvasControl.folderPath + entity.filenameID());
+	return ImageManager.loadLeTBSTurnOrder(entity.filenameID());
 };
 
 TBSTurnOrderVisual.prototype.setPositions = function () {
@@ -205,5 +205,5 @@ TBSTurnOrderVisual.prototype.updateOrderState = function () {
 * ImageManager
 -------------------------------------------------------------------------*/
 ImageManager.loadLeTBSTurnOrder = function (filename, hue) {
-    return this.loadBitmap(Lecode.WebCanvasControl.folderPath + 'img/LeTBS/TurnOrder/', filename, hue, true);
+    return this.loadBitmap('img/LeTBS/TurnOrder/', filename, hue, true);
 };
