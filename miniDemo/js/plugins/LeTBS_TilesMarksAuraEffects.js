@@ -205,7 +205,7 @@ BattleManagerTBS.executeMarkEffects = function (mark, entity, occasion) {
     for (var property in mark._data.triggers) {
         if (mark._data.triggers.hasOwnProperty(property)) {
             if (String(property).includes(occasion)) {
-                data = effect[property];
+                data = mark._data.triggers[property];
                 occasionFound = true;
                 break;
             }

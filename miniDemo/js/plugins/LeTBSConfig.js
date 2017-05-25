@@ -76,6 +76,13 @@ Lecode.S_TBS.Config.Projectiles = {
         speed: 14,
         jump: 0
     },
+    
+    "phantom_slash": {
+        anim: [149, 56, 50],
+        adapt_angle: true,
+        speed: 9,
+        jump: 0
+    },
 
     "shuriken": {
         filename: "Shuriken",
