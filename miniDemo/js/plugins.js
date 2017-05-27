@@ -29,5 +29,6 @@ var $plugins =
 {"name":"YEP_X_SkillCooldowns","status":true,"description":"v1.11 (Requires YEP_SkillCore.js) Cooldowns can be applied\nto skills to prevent them from being used continuously.","parameters":{"---Cooldown---":"","Cooldown Format":"%1CD","Cooldown Font Size":"20","Cooldown Text Color":"6","Cooldown Icon":"75","Cooldown After Battle":"-10","Cooldown Steps":"5","Cooldown Bypass":"1 2 3 4 5 6 7","---Warmup---":"","Warmup Format":"%1WU","Warmup Font Size":"20","Warmup Text Color":"4","Warmup Icon":"75","---Battle Core---":"","Time Based":"false","Turn Time":"100"}},
 {"name":"Rhyme_MapSmoothScrolling","status":true,"description":"this plugin permit to smooth scroll in map","parameters":{"SpeedDivider":"8"}},
 {"name":"LeDamageFormula","status":true,"description":"Adds balanced damage formula","parameters":{}},
-{"name":"LeSkipTitleScreen","status":true,"description":"","parameters":{}}
+{"name":"LeSkipTitleScreen","status":true,"description":"","parameters":{}},
+{"name":"LePreloading","status":true,"description":"Preload entire folder of images","parameters":{"Folders":"[/img/leTBS/Battlers, /img/animations]","Preload Sounds":"true"}}
 ];
