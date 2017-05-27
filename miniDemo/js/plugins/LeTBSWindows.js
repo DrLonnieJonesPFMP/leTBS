@@ -62,8 +62,8 @@ Lecode.S_TBS.Windows.itemWindowW = "300";
 Lecode.S_TBS.Windows.itemWindowH = "window.fittingHeight(4);";
 Lecode.S_TBS.Windows.itemWindowFloatRange = 20;
 
-Lecode.S_TBS.Windows.endCommandWindowW = "200";
-Lecode.S_TBS.Windows.endCommandWindowVisibleLines = "2";
+Lecode.S_TBS.Windows.endCommandWindowW = "220";
+Lecode.S_TBS.Windows.endCommandWindowVisibleLines = "3";
 
 /*-------------------------------------------------------------------------
 * Window_TBSConfirm
