@@ -83,6 +83,8 @@
 #          Added a trigger type for battle end
 # - 0.7 : Reworked the battle HUD
 #         Improved the positioning phase, you can also specify fixed actor cells
+#         The positioning phase is now correctly resumed
+#         The mouse is now correctly supported during the positioning phase
 #         Defeat is now based on actors in battle and not the whole party (bugfix)
 #         Added a minimal parameter to scopes
 #         Scopes and AoEs parameters are now evaluated
@@ -112,6 +114,10 @@
 #         Added a configuration tag for AI
 #         Fixed a bug where collapse effects are triggered multiple times
 #         Projectiles are now summoned for each cell in the AoE
+#         The turn order is now correctly determined
+#         Command, Skill and Item windows are now correctly positioned
+#         Skills can now directly alter move points
+#         Move points popup is now added
 #=============================================================================
 */
 var Imported = Imported || {};
@@ -918,13 +924,17 @@ Scene_Battle.prototype.start = function () {
         BattleManagerTBS._logWindow = this._logWindow;
         this._logWindow.setSpriteset(this._spriteset);
         InputHandlerTBS.setup();
+        this.setMovableWindows();
 
         InputHandlerTBS.addWindowBlockingTouch(this._windowConfirm)
             .addWindowBlockingTouch(this._windowCommand)
             .addWindowBlockingTouch(this._windowSkill)
             .addWindowBlockingTouch(this._windowItem)
             .addWindowBlockingTouch(this._windowStatus)
-            .addWindowBlockingTouch(this._helpWindow);
+            .addWindowBlockingTouch(this._helpWindow)
+            .addWindowBlockingTouch(this._windowEndCommand)
+            .addWindowBlockingTouch(this._windowPositioning)
+            .addWindowBlockingTouch(this._windowPositioningConfirm);
 
         LeUtilities.getScene().showPositioningWindow();
 
@@ -978,9 +988,16 @@ Scene_Battle.prototype.createAllWindows = function () {
     }
 };
 
+Scene_Battle.prototype.setMovableWindows = function () {
+    BattleManagerTBS.getLayer("movableInfo").addChild(this._windowCommand);
+    BattleManagerTBS.getLayer("movableInfo").addChild(this._windowSkill);
+    BattleManagerTBS.getLayer("movableInfo").addChild(this._windowItem);
+};
+
 Scene_Battle.prototype.createPositioningWindow = function () {
     this._windowPositioning = new Window_TBSPositioning();
     this._windowPositioning.setHandler('ok', this.onPositioningOk.bind(this));
+    this._windowPositioning.setHandler('cancel', this.onPositioningCancel.bind(this));
     this._windowPositioning.setHandler('exit_up', this.onPositioningExitUp.bind(this));
     this._windowPositioning.hide();
     this._windowPositioning.close();
@@ -1042,8 +1059,6 @@ Scene_Battle.prototype.createCommandWindow = function () {
         this._windowCommand.setHandler('cancel', this.onCommandInput.bind(this, "cancel"));
         this._windowCommand.hide();
         this._windowCommand.deactivate();
-        //BattleManagerTBS.getLayer("movableInfo").addChild(this._windowCommand);
-        this.addWindow(this._windowCommand);
     } else {
         Lecode.S_TBS.oldSB_createCommandWindow.call(this);
     }
@@ -1058,7 +1073,6 @@ Scene_Battle.prototype.createSkillWindow = function () {
         this._windowSkill._helpWindow = this._helpWindow;
         this._windowSkill.hide();
         this._windowSkill.deactivate();
-        this.addWindow(this._windowSkill);
     } else {
         Lecode.S_TBS.oldSB_createSkillWindow.call(this);
     }
@@ -1073,7 +1087,6 @@ Scene_Battle.prototype.createItemWindow = function () {
         this._windowItem._helpWindow = this._helpWindow;
         this._windowItem.hide();
         this._windowItem.deactivate();
-        this.addWindow(this._windowItem);
     } else {
         Lecode.S_TBS.oldSB_createItemWindow.call(this);
     }
@@ -1094,6 +1107,11 @@ Scene_Battle.prototype.activatePositioningWindow = function () {
     this._windowPositioningConfirm.open();
     this._windowPositioning.selectLast();
     this._windowPositioning.activate();
+    for (var i = 0; i < $gameParty.battleMembers().length; i++) {
+        this._windowPositioning.select(i);
+        if (!this._windowPositioning._disabled[i])
+            break;
+    }
 };
 
 Scene_Battle.prototype.onPositioningOk = function () {
@@ -1103,6 +1121,16 @@ Scene_Battle.prototype.onPositioningOk = function () {
     this._windowPositioning.close();
     this._windowPositioningConfirm.close();
     BattleManagerTBS.processActorPositioning(actor);
+};
+
+Scene_Base.prototype.onPositioningCancel = function () {
+    var actor = this._windowPositioning.actor();
+    var currentEntity = BattleManagerTBS.getEntityWithActorId(actor.actorId());
+    if (currentEntity) {
+        BattleManagerTBS.processActorPositioning(actor);
+        BattleManagerTBS.positioningPhaseCancel();
+    }
+    this._windowPositioning.activate();
 };
 
 Scene_Battle.prototype.onActorPrePositioning = function (actor) {
@@ -1149,20 +1177,21 @@ Scene_Battle.prototype.showPositioningWindow = function (cell, battler) {
     this._windowPositioning.activate();
 };
 
-Scene_Battle.prototype.showStatusWindow = function (entity) {
+Scene_Battle.prototype.showStatusWindow = function (entity,slide) {
     if (entity.battler().rpgObject().leTbs_hideStatusWindow) return;
     var window = this._windowStatus;
     this._windowStatus._entity = entity;
     this._windowStatus.show();
     this._windowStatus.open();
     this._windowStatus.refresh();
+    if (slide)
+        this._windowStatus.slide();
 };
 
 Scene_Battle.prototype.showCommandWindow = function () {
     var entity = BattleManagerTBS.activeEntity();
     var cell = entity.getCell();
     var battler = BattleManagerTBS.activeBattler();
-    this.placeWindowOverCell(this._windowCommand, cell);
     this._windowCommand.setup(battler, entity);
 };
 
@@ -1170,7 +1199,7 @@ Scene_Battle.prototype.showSkillWindow = function () {
     var entity = BattleManagerTBS.activeEntity();
     var cell = entity.getCell();
     var battler = BattleManagerTBS.activeBattler();
-    this.placeWindowOverCell(this._windowSkill, cell);
+    this._windowSkill._entity = entity;
     this._windowSkill.setActor(battler);
     this._windowSkill.show();
     this._windowSkill.open();
@@ -1183,7 +1212,7 @@ Scene_Battle.prototype.showItemWindow = function () {
     var entity = BattleManagerTBS.activeEntity();
     var cell = entity.getCell();
     var battler = BattleManagerTBS.activeBattler();
-    this.placeWindowOverCell(this._windowItem, cell);
+    this._windowItem._entity = entity;
     this._windowItem.show();
     this._windowItem.open();
     this._windowItem.refresh();
@@ -1206,26 +1235,6 @@ Scene_Battle.prototype.showEndCommandWindow = function () {
     this._windowEndCommand.show();
     this._windowEndCommand.open();
     this._windowEndCommand.activate();
-};
-
-Scene_Battle.prototype.placeWindowOverCell = function (window, cell) {
-    var x = $gameMap.adjustX(cell.x) * $gameMap.tileWidth();
-    var y = $gameMap.adjustY(cell.y) * $gameMap.tileHeight();
-    var w = window.width;
-    var h = window.height;
-
-    x += $gameMap.tileWidth() / 2 - w / 2;
-    while (x < 0) x++;
-    while ((x + w) > Graphics.width) x--;
-
-    if (y <= h)
-        y += $gameMap.tileHeight() / 2 + 10;
-    else
-        y -= h - 10;
-
-    window.move(x, y, w, h);
-    window._leU_float = true;
-    window._leU_floatData.ini_pos = [x, y];
 };
 
 Scene_Battle.prototype.hidePositioningWindow = function (cell, battler) {
@@ -1324,6 +1333,7 @@ InputHandlerTBS.setup = function () {
     this._active = true;
     this._lastSelectedCell = null;
     this._windowsBlocking = [];
+    this._oldMousePos = {};
 };
 
 InputHandlerTBS.isActive = function () {
@@ -1383,6 +1393,11 @@ InputHandlerTBS.setOnCancelCallback = function (callback) {
     return this;
 };
 
+InputHandlerTBS.setOnMoveCallback = function (callback) {
+    this._onMoveCallback = callback;
+    return this;
+};
+
 InputHandlerTBS.update = function () {
     if (!this.isActive()) return;
     if (BattleManagerTBS.isWaiting()) return;
@@ -1406,12 +1421,12 @@ InputHandlerTBS.update = function () {
         BattleManagerTBS._opacityInputed = false;
 
     if (TouchInput.isTriggered()) {
+        var x = $gameMap.canvasToMapX(TouchInput.x);
+        var y = $gameMap.canvasToMapY(TouchInput.y);
+        var cell = BattleManagerTBS.getCellAt(x, y);
+        this.processCallback("Touch", cell);
+        this._lastSelectedCell = cell;
         if (!this.isTouchBlocked()) {
-            var x = $gameMap.canvasToMapX(TouchInput.x);
-            var y = $gameMap.canvasToMapY(TouchInput.y);
-            var cell = BattleManagerTBS.getCellAt(x, y);
-            this.processCallback("Touch", cell);
-            this._lastSelectedCell = cell;
             $gameTemp.setDestination(x, y);
             BattleManagerTBS.resetDestinationCount();
         }
@@ -1435,6 +1450,13 @@ InputHandlerTBS.update = function () {
         this.processCallback("Ok");
     if (Input.isTriggered("cancel"))
         this.processCallback("Cancel");
+
+    if (TouchInput._leTBSMoveData.x != this._oldMousePos.x ||
+        TouchInput._leTBSMoveData.y != this._oldMousePos.y) {
+        this.processCallback("Move");
+        this._oldMousePos.x = TouchInput._leTBSMoveData.x;
+        this._oldMousePos.y = TouchInput._leTBSMoveData.y;
+    }
 };
 
 InputHandlerTBS.processCallback = function (key, arg) {
@@ -1938,7 +1960,21 @@ BattleManagerTBS.processPositioningPhase = function () {
         .setOnRightCallback(this.positioningPhaseOnInputRight.bind(this))
         .setOnLeftCallback(this.positioningPhaseOnInputLeft.bind(this))
         .setOnDownCallback(this.positioningPhaseOnInputDown.bind(this))
-        .setOnUpCallback(this.positioningPhaseOnInputUp.bind(this));
+        .setOnUpCallback(this.positioningPhaseOnInputUp.bind(this))
+        .setOnMoveCallback(this.positioningPhaseOnMouseMove.bind(this));
+};
+
+BattleManagerTBS.positioningPhaseOnMouseMove = function () {
+    if (this._subPhase === "directionSelector_input") {
+        var x = $gameMap.canvasToMapX(TouchInput._leTBSMoveData.x);
+        var y = $gameMap.canvasToMapY(TouchInput._leTBSMoveData.y);
+        var cell = BattleManagerTBS.getCellAt(x, y);
+        var entity = this._directionSelector._battlerEntity;
+        var oldDir = entity.getDir();
+        entity.lookAt(cell);
+        if (oldDir != entity.getDir())
+            this._directionSelector.setDir(entity.getDir());
+    }
 };
 
 BattleManagerTBS.positioningPhaseOnTouchInput = function (selectedCell) {
@@ -1949,6 +1985,18 @@ BattleManagerTBS.positioningPhaseOnTouchInput = function (selectedCell) {
         case "directionSelector_input":
             this.setDirectionSelectionDirByTouch(selectedCell);
             break;
+    }
+    this.checkStartWindowInput();
+};
+
+BattleManagerTBS.checkStartWindowInput = function () {
+    var window = LeUtilities.getScene()._windowPositioningConfirm;
+    if (window.visible && window.isMouseInsideFrame()) {
+        LeUtilities.getScene().onPositioningExitUp();
+    }
+    window = LeUtilities.getScene()._windowPositioning;
+    if (window.visible && !window.active && window.isMouseInsideFrame()) {
+        LeUtilities.getScene().onPositioningConfirmCursorDown();
     }
 };
 
@@ -2030,7 +2078,7 @@ BattleManagerTBS.updatePositioningPhase = function () {
 };
 
 BattleManagerTBS.processActorsPrePositioning = function () {
-    if (!this._actorsToPositionate.length > 0) return;
+    if (this._actorsToPositionate.length === 0) return;
     do {
         var actor = this._actorsToPositionate.shift();
         var cell = this.allyStartCells().filter(function (cell) {
@@ -2090,15 +2138,17 @@ BattleManagerTBS.processActorPositioning = function (actor) {
     if (currentEntity) {
         this._currentPositioningEntity = currentEntity;
         this.positioningSelect(currentEntity.getCell());
+        currentEntity.setOpacity(255);
+        currentEntity.startFlash([255, 255, 255, 255], 20, true);
         return;
     }
     var entity = new TBSEntity(actor, this.getLayer("battlers"));
+    var cell = this.getNextActorPositioningCell();
     entity.setOpacity(255);
     entity.startFlash([255, 255, 255, 255], 20, true);
-    var cell = this.getNextActorPositioningCell();
-    entity.newAnimation(Lecode.S_TBS.placedBattlerAnim, false, 0);
     this._currentPositioningEntity = entity;
     this.positioningSelect(cell);
+    entity.newAnimation(Lecode.S_TBS.placedBattlerAnim, false, 0);
 };
 
 BattleManagerTBS.positioningSelect = function (cell) {
@@ -2106,11 +2156,12 @@ BattleManagerTBS.positioningSelect = function (cell) {
     this.centerCell(cell);
     this.updateCursor();
     if (this._currentPositioningEntity) {
+        var actorId = this._currentPositioningEntity.battler().actorId();
         if (this._positioningEntityToSwap) {
             this._positioningEntityToSwap.stopFLash();
         }
         var entity = cell.getEntity();
-        if (entity) {
+        if (entity && entity.battler().actorId() != actorId) {
             this._positioningEntityToSwap = entity;
             this._currentPositioningEntity.stopFLash();
             this._currentPositioningEntity.startFlash([255, 255, 255, 255], 20, true);
@@ -2217,7 +2268,10 @@ BattleManagerTBS.positioningPhaseOk = function () {
         this._positioningEntityToSwap = null;
         return;
     }
-    this._battlerEntities.push(this._currentPositioningEntity);
+    var actorId = this._currentPositioningEntity.battler().actorId();
+    var currentEntity = this.getEntityWithActorId(actorId);
+    if (!currentEntity)
+        this._battlerEntities.push(this._currentPositioningEntity);
     this.callDirectionSelector(this._currentPositioningEntity, cell);
     LeUtilities.getScene()._windowPositioningConfirm.setEnabled(true);
     LeUtilities.getScene()._windowPositioningConfirm.refresh();
@@ -2274,16 +2328,20 @@ BattleManagerTBS.setDirectionSelectorRight = function () {
 };
 
 BattleManagerTBS.directionSelectorValidatePositioning = function () {
-    InputHandlerTBS.setActive(false);
     SoundManager.playOk();
     Input.clear();
     this._currentPositioningEntity.stopFLash();
     this._currentPositioningEntity.setOpacity(255);
     this._directionSelector.hide();
-    this._subPhase = "input";
+    this._subPhase = "";
     this._currentPositioningEntity = null;
     LeUtilities.getScene().activatePositioningWindow();
     this.cursor().hide();
+    if (this.allyEntities().length === $gameParty.battleMembers().length) {
+        LeUtilities.getScene()._windowPositioning.deactivate();
+        LeUtilities.getScene()._windowPositioning.deselect();
+        this.positioningPhaseEnd();
+    }
 };
 
 BattleManagerTBS.setDirectionSelectionDirByTouch = function (selectedCell) {
@@ -2306,8 +2364,9 @@ BattleManagerTBS.positioningPhaseEnd = function () {
 
 BattleManagerTBS.resumePositioningPhase = function () {
     LeUtilities.getScene().hideConfirmationWindow();
-    this.positioningPhaseCancel();
-    this._subPhase = "input";
+    LeUtilities.getScene().activatePositioningWindow();
+    LeUtilities.getScene()._windowPositioningConfirm.deselect();
+    this._subPhase = "";
 };
 
 BattleManagerTBS.onConfirmationWindowOK = function () {
@@ -2536,9 +2595,8 @@ BattleManagerTBS.determineTurnOrderSimple = function () {
         array.push(entity);
     });
     array = array.sort(function (a, b) {
-        return (a._battler.agi > b._battler.agi) ? 1 : ((a._battler.agi < b._battler.agi) ? -1 : 0);
+        return a._battler.agi - b._battler.agi;
     });
-    array.reverse();
 
     this._turnOrder = array;
     this._turnOrderVisual.set(this._turnOrder);
@@ -2555,36 +2613,29 @@ BattleManagerTBS.determineTurnOrderFair = function () {
         actors.push(entity);
     });
     actors = actors.sort(function (a, b) {
-        return (a._battler.agi > b._battler.agi) ? 1 : ((a._battler.agi < b._battler.agi) ? -1 : 0);
+        return a._battler.agi - b._battler.agi;
     });
-    actors.reverse();
+    actors.forEach(function(actor){
+        console.log(actor._battler.agi);
+    });
 
     this.enemyEntities().forEach(function (entity) {
         enemies.push(entity);
     });
     enemies = enemies.sort(function (a, b) {
-        return (a._battler.agi > b._battler.agi) ? 1 : ((a._battler.agi < b._battler.agi) ? -1 : 0);
+        return a._battler.agi - b._battler.agi;
     });
-    enemies.reverse();
 
-    if (actors[0]._battler.agi >= enemies[0]._battler.agi)
-        array.push(actors.shift());
-    else
-        array.push(enemies.shift());
-    var max = actors.length + enemies.length;
-    for (var i = 1; i <= max; i++) {
-        var last = array.leU_last();
-        if (last._battler.isActor()) {
-            if (enemies.length > 0)
-                array.push(enemies.shift());
-            else
-                array.push(actors.shift());
-        } else {
-            if (actors.length > 0)
-                array.push(actors.shift());
-            else
-                array.push(enemies.shift());
-        }
+    console.log(actors[0]._battler.agi);
+    console.log(enemies[0]._battler.agi);
+    var partySet = actors[0]._battler.agi >= enemies[0]._battler.agi ? actors : enemies;
+    var partyLeft = actors[0]._battler.agi >= enemies[0]._battler.agi ? enemies : actors;
+    while(partySet.length > 0)
+        array.push(partySet.shift());
+    var index = 0;
+    while(partyLeft.length > 0) {
+        array.splice(index+1,0,partyLeft.shift());
+        index += 2;
     }
 
     this._turnOrder = array;
@@ -2619,7 +2670,7 @@ BattleManagerTBS.startTurn = function () {
 
     var battler = this.activeBattler();
     this.newAction(battler, true);
-    LeUtilities.getScene().showStatusWindow(entity);
+    LeUtilities.getScene().showStatusWindow(entity,true);
 
     var cell = entity.getCell();
     this.setCursorCell(cell);
@@ -3076,7 +3127,7 @@ BattleManagerTBS.processCounterAttack = function (targets, subject, action) {
 };
 
 BattleManagerTBS.invokeObjEffects = function (user, item, targets, hitAnim, animDelay) {
-    //- Set item to active action
+    this.activeAction().setItemObject(item);
     this.prepareDirectionalDamageBonus(user, targets, item);
     this.applyObjEffects(user, targets, hitAnim, animDelay);
     this.resetDirectionalDamageBonus(targets);
@@ -3085,6 +3136,7 @@ BattleManagerTBS.invokeObjEffects = function (user, item, targets, hitAnim, anim
 
 BattleManagerTBS.applyObjEffects = function (user, targets, hitAnim, animDelay) {
     targets.forEach(function (target) {
+        target.prepareExtraPopups();
         if (Math.random() < this.activeAction().itemMrf(target.battler()))
             this.processMagicReflection(user, target, hitAnim, animDelay);
         else {
@@ -3097,6 +3149,7 @@ BattleManagerTBS.applyObjEffects = function (user, targets, hitAnim, animDelay) 
             } else {
                 target.callSequence("evaded");
             }
+            target.applyObjChangeMovePoints(this.activeAction().item());
             target.onDamage();
         }
     }.bind(this));
@@ -3104,6 +3157,7 @@ BattleManagerTBS.applyObjEffects = function (user, targets, hitAnim, animDelay) 
 
 BattleManagerTBS.processMagicReflection = function (user, target, hitAnim, animDelay) {
     var cell = target.getCell();
+    user.prepareExtraPopups();
     target.newAnimation(178, false, 0);
     this.activeAction().apply(user.battler());
     if (user.battler().result().isHit()) {
@@ -3114,6 +3168,7 @@ BattleManagerTBS.processMagicReflection = function (user, target, hitAnim, animD
     } else {
         user.callSequence("evaded");
     }
+    user.applyObjChangeMovePoints(this.activeAction().item());
     user.onDamage();
 };
 
@@ -3139,6 +3194,7 @@ BattleManagerTBS.applyObjEffectsOnMap = function (user, item, cellTargets, hitAn
                 } else {
                     target.callSequence("evaded");
                 }
+                target.applyObjChangeMovePoints(this.activeAction().item());
                 target.onDamage();
                 this.resetDirectionalDamageBonus([target]);
             }
@@ -3151,6 +3207,7 @@ BattleManagerTBS.applyObjEffectsOnMap = function (user, item, cellTargets, hitAn
 BattleManagerTBS.processMagicReflectionOnMap = function (user, target, hitAnim, animDelay) {
     var sprite;
     var cell = user.getCell();
+    user.prepareExtraPopups();
     this.prepareDirectionalDamageBonus(target, [user], item);
     this.activeAction().apply(user.battler());
     if (user.battler().result().isHit()) {
@@ -3160,6 +3217,7 @@ BattleManagerTBS.processMagicReflectionOnMap = function (user, target, hitAnim, 
     } else {
         user.callSequence("evaded");
     }
+    user.applyObjChangeMovePoints(this.activeAction().item());
     user.onDamage();
     this.resetDirectionalDamageBonus([target]);
     if (hitAnim)
@@ -7372,6 +7430,10 @@ TBSEntity.prototype.onBattleStart = function () {
 TBSEntity.prototype.onTurnStart = function () {
     this.setMovePoints();
     this.callSequence("turn_start");
+    /*if (this.battler().isActor())
+        this.newAnimation(180,false,false);
+    else
+        this.newAnimation(181,false,false);*/
 };
 
 TBSEntity.prototype.onTurnEnd = function () {
@@ -7818,6 +7880,12 @@ TBSEntity.prototype.setMovePoints = function () {
     if (this._movePoints < 0)
         this._movePoints = 0;
 };
+
+TBSEntity.prototype.applyObjChangeMovePoints = function (obj) {
+    var value = obj.leTbs_changeMovePoints;
+    var nbr = value.match("%") ? Number(value.replace("%","")) * 0.01 * this.getMovePoints() : Number(value);
+    this.changeMovePoints(nbr);
+},
 
 TBSEntity.prototype.changeMovePoints = function (plus) {
     this._movePoints += plus;
@@ -9347,6 +9415,7 @@ DataManager.processLeTBSTagsForObjects = function () {
             };
             obj.leTbs_sequence = [];
             obj.leTbs_loopAnimation = null;
+            obj.leTbs_changeMovePoints = "0";
 
             for (var k = 0; k < notedata.length; k++) {
                 var line = notedata[k];
@@ -9398,6 +9467,8 @@ DataManager.processLeTBSTagsForObjects = function () {
                         obj.leTbs_directionalDmgReduction.side = Number(RegExp.$1);
                     else if (line.match(/loop_animation\s?:\s?(.+)/i))
                         obj.leTbs_loopAnimation = Number(RegExp.$1);
+                    else if (line.match(/change_move_points\s?:\s?(.+)/i))
+                        obj.leTbs_changeMovePoints = String(RegExp.$1);
                 }
                 else if (letbs_ai) {
                     if (line.match(/type\s?:\s?(.+)/i))

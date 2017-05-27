@@ -40,7 +40,7 @@ Lecode.S_TBS.Windows.positioningWindowFloatRange = 20;
 Lecode.S_TBS.Windows.hpTextColor = 2;                   //  (): Color code of HP
 Lecode.S_TBS.Windows.mpTextColor = 3;                   //  (): Color code of MP
 
-Lecode.S_TBS.Windows.statusWindowW = "240";
+Lecode.S_TBS.Windows.statusWindowW = "270";
 Lecode.S_TBS.Windows.statusWindowH = "window.fittingHeight(3);";
 Lecode.S_TBS.Windows.statusWindowX = "0";
 Lecode.S_TBS.Windows.statusWindowY = "Graphics.height - window.height";
@@ -370,6 +370,7 @@ Window_TBSStatus.prototype.initialize = function () {
     this.x = x;
     this.y = y;
     this._entity = null;
+    this._sliding = false;
     this.refresh();
 };
 
@@ -381,6 +382,24 @@ Window_TBSStatus.prototype.windowWidth = function () {
 Window_TBSStatus.prototype.windowHeight = function () {
     var window = this;
     return eval(Lecode.S_TBS.Windows.statusWindowH);
+};
+
+Window_TBSStatus.prototype.slide  = function () {
+    this._sliding = true;
+    this.x = -this.width;
+};
+
+Window_TBSStatus.prototype.update = function () {
+    Window_Base.prototype.update.call(this);
+    var speed = 8;
+    var destX = eval(Lecode.S_TBS.Windows.statusWindowX);
+    if (this._sliding) {
+        this.x += speed;
+        if (this.x >= destX) {
+            this._sliding = false;
+            this.x = destX;
+        }
+    }
 };
 
 Window_TBSStatus.prototype.refresh = function () {
@@ -397,14 +416,14 @@ Window_TBSStatus.prototype.refresh = function () {
     y = 0;
     this.contents.fontSize += 2;
     this.changeTextColor(this.systemColor());
-    this.leU_drawText(this._entity.battler().name(), x, y);
+    this.leU_drawText(this._entity.battler().name(), "center", y);
     this.contents.fontSize -= 4;
     //- HP and Gauge
     y += this.lineHeight();
-    this.drawActorHp(this._entity.battler(), x, y, 100);
+    this.drawActorHp(this._entity.battler(), x, y, 130);
     //- MP and Gauge
     y += this.lineHeight();
-    this.drawActorMp(this._entity.battler(), x, y, 100);
+    this.drawActorMp(this._entity.battler(), x, y, 130);
     // - States
     x = 2;
     var max = Lecode.S_TBS.Windows.statusWindowMaxStates;
@@ -533,6 +552,16 @@ Window_TBSCommand.prototype.setup = function (actor, entity) {
     this.open();
 };
 
+Window_TBSCommand.prototype.update = function () {
+    Window_Command.prototype.update.call(this);
+    if(this._entity) {
+        var x = this._entity._posX - this.windowWidth() / 2;
+        var y = this._entity._posY - this.windowHeight();
+        this.x = x + this._entity.width() / 2;
+        this.y = y;
+    }
+};
+
 Window_TBSCommand.prototype.processOk = function () {
     if (this._battler) {
         if (ConfigManager.commandRemember) {
@@ -579,24 +608,7 @@ Window_TBSSkillList.prototype.initialize = function () {
     var w = this.windowWidth();
     var h = this.windowHeight();
     Window_BattleSkill.prototype.initialize.call(this, 0, 0, w, h);
-    this.startFloat();
-    this.endFloat();
-};
-
-Window_TBSSkillList.prototype.startFloat = function () {
-    this._leU_floatData = {
-        range: [0, Lecode.S_TBS.Windows.commandWindowFloatRange],
-        sens: ["+", "+"],
-        speed: 2
-    };
-};
-
-Window_TBSSkillList.prototype.endFloat = function () {
-    this._leU_floatData.speed = 0;
-};
-
-Window_TBSSkillList.prototype.resumeFloat = function () {
-    this._leU_floatData.speed = 2;
+    this._entity = null;
 };
 
 Window_TBSSkillList.prototype.includes = function (item) {
@@ -617,6 +629,16 @@ Window_TBSSkillList.prototype.maxCols = function () {
     return 1;
 };
 
+Window_TBSSkillList.prototype.update = function () {
+    Window_BattleSkill.prototype.update.call(this);
+    if(this._entity) {
+        var x = this._entity._posX - this.windowWidth() / 2;
+        var y = this._entity._posY - this.windowHeight();
+        this.x = x + this._entity.width() / 2;
+        this.y = y;
+    }
+};
+
 /*-------------------------------------------------------------------------
 * Window_TBSItemList
 -------------------------------------------------------------------------*/
@@ -630,24 +652,7 @@ Window_TBSItemList.prototype.initialize = function () {
     var w = this.windowWidth();
     var h = this.windowHeight();
     Window_BattleItem.prototype.initialize.call(this, 0, 0, w, h);
-    this.startFloat();
-    this.endFloat();
-};
-
-Window_TBSItemList.prototype.startFloat = function () {
-    this._leU_floatData = {
-        range: [0, Lecode.S_TBS.Windows.commandWindowFloatRange],
-        sens: ["+", "+"],
-        speed: 2
-    };
-};
-
-Window_TBSItemList.prototype.endFloat = function () {
-    this._leU_floatData.speed = 0;
-};
-
-Window_TBSItemList.prototype.resumeFloat = function () {
-    this._leU_floatData.speed = 2;
+    this._entity = null;
 };
 
 Window_TBSItemList.prototype.windowWidth = function () {
@@ -662,6 +667,16 @@ Window_TBSItemList.prototype.windowHeight = function () {
 
 Window_TBSItemList.prototype.maxCols = function () {
     return 1;
+};
+
+Window_TBSItemList.prototype.update = function () {
+    Window_ItemList.prototype.update.call(this);
+    if(this._entity) {
+        var x = this._entity._posX - this.windowWidth() / 2;
+        var y = this._entity._posY - this.windowHeight();
+        this.x = x + this._entity.width() / 2;
+        this.y = y;
+    }
 };
 
 
