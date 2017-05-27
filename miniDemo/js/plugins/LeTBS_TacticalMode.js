@@ -82,12 +82,18 @@ Scene_Base.prototype.setTacticalMode = function () {
     BattleManagerTBS._tacticalMode = !BattleManagerTBS._tacticalMode;
     var spriteset = this._spriteset;
     if (BattleManagerTBS._tacticalMode) {
-        if (Graphics.isWebGL())
+        if (Graphics.isWebGL()) {
             spriteset._tilemap.lowerZLayer.renderable = false;
+            spriteset._tilemap.upperZLayer.renderable = false;
+            spriteset._parallax.renderable = false;
+        }
         spriteset._TacticalLayer.show();
     } else {
-        if (Graphics.isWebGL())
+        if (Graphics.isWebGL()) {
             spriteset._tilemap.lowerZLayer.renderable = true;
+            spriteset._tilemap.upperZLayer.renderable = true;
+            spriteset._parallax.renderable = true;
+        }
         spriteset._TacticalLayer.clear();
     }
     this._windowEndCommand.activate();
