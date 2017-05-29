@@ -3,7 +3,7 @@
 # Windows for LeTBS
 # LeTBSWindows.js
 # By Lecode
-# Version A - 1.1
+# Version A - 1.2
 #-----------------------------------------------------------------------------
 # TERMS OF USE
 #-----------------------------------------------------------------------------
@@ -13,6 +13,7 @@
 #-----------------------------------------------------------------------------
 # - 1.0 : Initial release
 # - 1.1 : The tag sprite_name is correctly taken into account
+# - 1.2 : The status window is updated
 #=============================================================================
 */
 var Lecode = Lecode || {};
@@ -22,7 +23,7 @@ Lecode.S_TBS.Windows = {};
 /*:
  * @plugindesc (WIP)Version A Windows for LeTBS
  * @author Lecode
- * @version 1.1
+ * @version 1.2
  *
  * @help
  * ...
@@ -431,7 +432,7 @@ Window_TBSStatus.prototype.refresh = function () {
 };
 
 Window_TBSStatus.prototype.drawSprite = function (x, y) {
-    var bitmap = ImageManager.loadLeTBSStatus(this._entity.filenameID() + "_Sprite");
+    var bitmap = ImageManager.loadLeTBSStatus(this._entity.filenameID());
     var window = this;
     bitmap.addLoadListener(function () {
         var dx = eval(Lecode.S_TBS.Windows.statusWindowSpriteBoxW) / 2 - bitmap.width / 2;
@@ -439,14 +440,6 @@ Window_TBSStatus.prototype.drawSprite = function (x, y) {
         this.contents.blt(bitmap, 0, 0, bitmap.width, bitmap.height, dx, dy);
     }.bind(this));
 };
-/*
-Window_TBSStatus.prototype.drawActorIcons = function(actor, x, y, width) {
-    width = width || 144;
-    var icons = actor.allIcons().slice(0, Math.floor(width / Window_Base._iconWidth));
-    for (var i = 0; i < icons.length; i++) {
-        this.drawIcon(icons[i], x + Window_Base._iconWidth * i, y + 2);
-    }
-};*/
 
 
 /*-------------------------------------------------------------------------

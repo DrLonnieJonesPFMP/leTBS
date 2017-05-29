@@ -166,7 +166,7 @@ LeUtilities.uniqArray = function(array) {
     });*/
     var func = function(value, index, self) {
         return self.indexOf(value) === index;
-    }
+    };
     return array.filter(func);
 };
 

@@ -17,6 +17,8 @@
 #       : When an ally dead, tied marks are removed
 #       : Added a tag for battlers to be immune to tile, mark and aura effects
 # - 1.3 : Supports the summoning system
+#       : Fixed a bug where triggering tiles and mark effects change the next
+#         action damage
 #=============================================================================
 */
 var Imported = Imported || {};
@@ -121,8 +123,10 @@ BattleManagerTBS.executeTileEffects = function (entity, effect, occasion, code) 
             var battler = new Game_Enemy(battlerId, 0, 0);
             var obj = $dataSkills[id];
             var anim = effect.play_anim ? obj.animationId : null;
+            var oldActiveAction = this._activeAction;
             this.newAction(battler, true);
             this.invokeObjEffects(entity, obj, targets, anim, 0);
+            this._activeAction = oldActiveAction;
         }
         this.wait(wait);
         return stopMovement ? 1 : 0;
@@ -223,9 +227,11 @@ BattleManagerTBS.executeMarkEffects = function (mark, entity, occasion) {
         var battler = mark._user._battler;
         var obj = $dataSkills[id];
         var anim = obj.animationId;
+        var oldActiveAction = this._activeAction;
         this.newAction(mark._user.battler(), true);
         this.invokeObjEffects(mark._user, obj, targets, anim, 0);
         this._marksManager.onMarkTriggered(mark);
+        this._activeAction = oldActiveAction;
     }
     this.wait(wait);
     return stopMovement ? 1 : 0;
