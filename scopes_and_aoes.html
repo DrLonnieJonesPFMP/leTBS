@@ -132,25 +132,23 @@
 
                 
                 <section class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
-                    <h2 id="what-are-them">What are them</h2>
-<p>Actions in battle, such as moving or using a skills font intervenir scopes, AoEs, or both. So, to properly setup your battle actions, you need to understand how they work.</p>
-<h2 id="setting-up-a-scope-or-an-aoe">Setting up a scope or an AoE</h2>
-<p>The tags <code>scope: data</code> and <code>aoe: data</code> can be used into skills, items and weapons notebox to define how the scopes and the AoEs of these databse objects are supposed to be. Where <code>data</code> is one of the following informations:  </p>
+                    <h2 id="setting-up-a-scope-or-an-aoe">Setting up a scope or an AoE</h2>
+<p>The tags <code>scope: data</code> and <code>aoe: data</code> can be used into skills, items and weapons notebox to define how the scopes and the AoEs of these database objects are supposed to be. Where <code>data</code> is one of the following informations:  </p>
 <ul>
 <li><code>circle(range)</code> or <code>circle(min, range)</code></li>
 <li><code>square(range)</code> or <code>square(min, range)</code></li>
 <li><code>line(range)</code> or <code>line(min, range)</code></li>
 <li><code>cross(range)</code> or <code>cross(min, range)</code></li>
 <li><code>path</code> : The area is created based on the path from the current battler to the cursor cell</li>
-<li><code>custom(id)</code> : Use a comstume area. See bellow.  </li>
+<li><code>custom(id)</code> : Use a custom area. See bellow.  </li>
 </ul>
 <p><code>range</code> is basically the size of the area and <code>min</code> is the minimal range.<br />
 The following image shows the scopes <code>circle(2)</code>, <code>square(1)</code>, <code>line(2)</code> and <code>cross(2)</code>.  </p>
 <p><img src="img/scopes.png" alt="" /><br />
-And this one is obtained with <code>circle(2,4)</code>. The minimal range is 2, as you can see.<br />
+And this one is obtained with <code>circle(4,3)</code>. The minimal range is 3, as you can see.<br />
 <img src="img/area_example.png" alt="" />  </p>
 <h2 id="custom-scopes">Custom Scopes</h2>
-<p>There is a way to create custom shapes. You aren't limited to primitives shapes like circles and squares. The possibilities are endless. Custom scopes are defined in the <code>configuration file</code> at this location: <code>Lecode.S_TBS.Config.Custom_Scopes</code>.<br />
+<p>There is a way to create custom shapes. You aren't limited to primitive shapes like circles and squares. The possibilities are endless. Custom scopes are defined in the <code>configuration file</code> at this location: <code>Lecode.S_TBS.Config.Custom_Scopes</code>.<br />
 Each element in this section is in that format:  </p>
 <pre><code class="language-javascript">"ID": {
     data: "cell1, cell2, cell3, ..."
@@ -160,7 +158,7 @@ Each element in this section is in that format:  </p>
     data: "[cx+3,cy],[cx-3,cy],[cx,cy+3],[cx,cy-3]"
 },</code></pre>
 <p>The content of data is a list of cells, given that <code>cx</code> and <code>cy</code> are the coordinates of the map cursor.<br />
-The easiest way to fill this parameter is to use my tool: <a href="https://lecodemv.github.io/leTBS-AoE_Creator/">AoE Creator</a>.  It generates for you the content of <code>data</code> based of what you drew.  </p>
+The easiest way to fill this parameter is to use my tool: <a href="https://lecodemv.github.io/leTBS-AoE_Creator/">AoE Creator</a>.  It generates for you the content of <code>data</code>, based on what you drew.</p>
 <p><img src="img/aoe_creator.png" alt="" />  </p>
 <p>To use the created custom scope, simply apply the tag <code>scope: custom(id)</code> or <code>aoe: custom(id)</code> where id if the identifier of your custom scope.  </p>
 <h3 id="directional-scopes">Directional Scopes</h3>

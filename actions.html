@@ -135,15 +135,16 @@
                     <h2 id="actions">Actions</h2>
 <h3 id="moving">Moving</h3>
 <p>Battlers move based on their <code>move points</code>. To define the amount of move points a battler has by default, use the tag <code>move_points: numeric</code>.
-Equipments and states can altere move points, using <code>move_points: +numeric</code> or <code>move_points: -numeric</code>.</p>
+Equipment and states can altere move points, using <code>move_points: +numeric</code> or <code>move_points: -numeric</code>.
+Moreover, skills an weapons can directly alter move points with the tag <code>change_move_points: +numeric</code> or <code>change_move_points: -numeric</code>.</p>
 <p>By default, the move scope is a circle, but you can use a custom scope using the tag <code>move_scope: data</code>, where <code>data</code> is a key expression. See the Scope section.  </p>
 <p><img src="img/move_scopes.png" alt="" /></p>
 <p>The result on the left is obtained with <code>move_scope: circle(_mp_)</code>. This is the default scope data. The other one is obtained with <code>move_scope: line(_mp_)</code>.<br />
 <code>_mp_</code> is actually a key word, that can be replaced by a number. But as move scope should be based on move points, that’s why we're using <code>_mp_</code>. If you set a fixed number, like <code>circle(7)</code> the move scope will always be a circle of 7 as size, resulting in a conflict. The tag
-<code>move_scope: data</code> can also be applied with equipments and states !  </p>
+<code>move_scope: data</code> can also be applied with equipment and states !  </p>
 <p>You can also set a battler as <strong>passable</strong> with the tag <code>passable</code>. The tag <code>passable_on_death</code> has the same role but in the case where the battler is dead.
 The tag <code>entities_can_lay_on_me</code> allow other battlers to end their move on the battler in question.</p>
-<p>By default, battlers can move as long as they have move points. Use the tag <code>one_time_move</code> on an actor or enemy notebox to allow only one move action per turn.  </p>
+<p>By default, battlers can move as long as they have move points. Use the tag <code>one_time_move</code> on an actor or enemy notebox to allow only one move action per turn. </p>
 <h2 id="using-skills-and-items">Using Skills and Items</h2>
 <p>You can define a scope, an AoE and a sequence for skills and items.
 Use <code>scope: data</code>, <code>aoe: data</code> and <code>sequence: data</code>.
@@ -157,15 +158,15 @@ It can also be used for weapons.  </p>
 <li>Directional damage</li>
 <li>Knockback damage  </li>
 </ul>
-<p>The following parameters in <code>LeTBS.js</code> let you set up the % extra damage an action get when used on a specific side of the target: <code>Back Directional Damage Effects</code>, <code>Side Directional Damage Effects</code>, <code>Face Directional Damage Effects</code>. By default they are at 15%, 0% and -10% respectivelly.<br />
+<p>The following parameters in <code>LeTBS.js</code> let you set up the % extra damage an action get when used on a specific side of the target: <code>Back Directional Damage Effects</code>, <code>Side Directional Damage Effects</code>, <code>Face Directional Damage Effects</code>. By default they are at 15%, 0% and -10% respectively.<br />
 It means for instance that when a battler attacks another one on the back, his actions get a 15% damage bonus.<br />
-The tags <code>back_dmg_bonus: numeric</code>, <code>side_dmg_bonus: numeric</code> and <code>face_dmg_bonus: numeric</code> can be applied on actors, equipments and states to increase the directional damage bonuses. An actor wearing an equipment taged with <code>back_dmg_bonus: 30%</code> will get an extra 30% damage bonus when attacking on the back.<br />
+The tags <code>back_dmg_bonus: numeric</code>, <code>side_dmg_bonus: numeric</code> and <code>face_dmg_bonus: numeric</code> can be applied on actors, equipment and states to increase the directional damage bonuses. An actor wearing an equipment taged with <code>back_dmg_bonus: 30%</code> will get an extra 30% damage bonus when attacking on the back.<br />
 The tags <code>back_dmg_reduction: numeric</code>, <code>side_dmg_reduction: numeric</code> and <code>face_dmg_reduction: numeric</code> protect battlers from directional damage. A battler with the tag <code>back_dmg_reduction: 50%</code> will receive 50% less damage when attacked on the back.  </p>
 <p>Knockback damage occur when a battler is pulled or pushed against an obstacle (it can be another battler). These damage are evaluated based on a formula set in the parameter <code>Default Collision Formula</code>. Its value by default is <code>b.mhp * 0.05 * (distance-covered)</code>.<br />
 <code>distance</code> is the distance to which the battler is pulled or pushed, and <code>covered</code> is the number of cells he reached.<br />
 Weapons and skills can have their own knockback formula. Use the tag: <code>collision_formula: string</code>.  </p>
-<p>Knockback damage are chained when a battler is pulled or pushed against another one. The damage is spread and is reduced by a % for covered battler. That % is defined in the parameter <code>Collission Damage Chain Rate</code>.  </p>
-<p>The tags <code>knockback_bonus: numeric</code> and <code>knockback_reduction: numeric</code> alter the distance to which a battler is pulled or pushed. So battlers can protect themself with armors taged with <code>knockback_reduction: numeric</code> to be less affected by pulling or pushing actions.<br />
+<p>Knockback damage are chained when a battler is pulled or pushed against another one. The damage is spread and is reduced by a % for covered battler. That % is defined in the parameter <code>Collision Damage Chain Rate</code>.  </p>
+<p>The tags <code>knockback_bonus: numeric</code> and <code>knockback_reduction: numeric</code> alter the distance to which a battler is pulled or pushed. So battlers can protect themselves  with armors tagged with <code>knockback_reduction: numeric</code> to be less affected by pulling or pushing actions.<br />
 In addition, a battler can be totally immune to knockback effects with the tag <code>immune_knockback</code>.</p>
                 </section>
 

@@ -137,8 +137,8 @@
 <h3 id="obstacles-management">Obstacles Management</h3>
 <p>There are two types of obstacles:  </p>
 <ul>
-<li>Obstacles that block the line of sight and that   </li>
-<li>Obstacle that don't block line </li>
+<li>Obstacles that block the line of sight and the character movement</li>
+<li>Obstacle that don't block the line of sight but block the character movement</li>
 </ul>
 <p>Both of them can't be walked on, obviously.
 I recommend using the second type of obstacles for tiles such as water and for small obstacles.<br />
@@ -150,7 +150,7 @@ Take a look at the parameters <code>Obstacle Region Id</code> and <code>Free Obs
 Starting cells are blank events.<br />
 To create actor starting cells, use this tag in the event notebox: <code>&lt;Actor Cell&gt;</code>. If you want a to set a specific actor on a specific starting cell, use instead <code>&lt;Actor Cell: id&gt;</code> where ID is the ID of that actor.<br />
 For enemies, use <code>&lt;Enemy Cell&gt;</code> instead, and you can also setup a specific cell for a specific enemy, based on its index with <code>&lt;Enemy Cell: index&gt;</code>. The index is the order number of that enemy in the troop. The index of the first added enemy in the troop is 0. And the next one is 1. And so on.  </p>
-<p>Enemies are randomnly distributed on starting cells without an index. If there is many starting cells with the same index, that specific enemy will be randomly positioned between them. The same applies for actor starting cells.</p>
+<p>Enemies are randomly distributed on starting cells without an index. If there is many starting cells with the same index, that specific enemy will be randomly positioned between them. The same applies for actor starting cells.</p>
 <h2 id="launching-your-battle">Launching your battle</h2>
 <p>LeTBS is a modular battle system and is disabled by default. Use this plugin command before launching a battle: <code>LeTBS ON</code>.<br />
 That's it. When launching a battle while this command is ON, the battle will use LeTBS.<br />

@@ -145,7 +145,7 @@ When a sequence isn’t defined, a default one is used.</p>
 <li><code>dead</code> : Called when an entity dies.</li>
 <li><code>revived</code> : Called when an entity is revived.</li>
 <li><code>damaged</code> : Called when an entity is damaged.</li>
-<li><code>evaded</code> : Callend when an entity evaded. This sequence is empty by default.</li>
+<li><code>evaded</code> : Called when an entity evaded. This sequence is empty by default.</li>
 <li><code>atk</code> : The default sequence used for weapons.</li>
 <li><code>cast(loop)</code> : A template sequence used by other sequences. Plays the cast animation.</li>
 <li><code>pre-skill</code> : A template sequence used before the skill sequence.</li>
@@ -236,13 +236,13 @@ Here's the content of the <code>atk</code> sequence:  </p>
 <li><code>saved</code> : Use saved cells.    </li>
 </ul>
 <h3 id="notes">Notes</h3>
-<p><code>{aoe}</code> referes to the current action AoE. The key word <code>aoe</code> can be replaced by <code>cursor</code> or any of the scope datas, such as <code>circle</code>, <code>square</code>, or <code>custom</code>, ect.<br />
+<p><code>{aoe}</code> refers to the current action AoE. The key word <code>aoe</code> can be replaced by <code>cursor</code> or any of the scope data, such as <code>circle</code>, <code>square</code>, or <code>custom</code>, ect.<br />
 Example: <code>{circle(2,4)}_allies</code>.<br />
 <strong>The center of these AoEs is always the cursor cell</strong>.  </p>
 <p>It's possible to <strong>exclude</strong> some targets from the selection, by adding <code>-</code> followed by a key at the end of the main key words.  Examples:  </p>
 <ul>
 <li><code>{aoe}_battlers -user</code>: Select all battlers in the action AoE except the user.  </li>
-<li><code>3_battlers_in_{aoe} -{circle(2)}_battlers</code>: Select 3 random battlers in the aoe expect those in the scope <code>circle(2)</code>.  </li>
+<li><code>3_battlers_in_{aoe} -{circle(2)}_battlers</code>: Select 3 random battlers in the aoe expcept those in the scope <code>circle(2)</code>.  </li>
 <li><code>battler_cells -user_cell</code>: Select each battler's cell on the map except the one of the user.</li>
 </ul>
 <h3 id="sprite-commands">Sprite Commands</h3>
@@ -275,7 +275,7 @@ Make the selected entities shake. If wait is <code>true</code>, the sequence wil
 <h3 id="damage-commands">Damage Commands</h3>
 <ul>
 <li><strong><code>effects: entities, obj, hit_animation, animation_delay, [wait]</code></strong><br />
-Triggers the effects on each selected entities.  
+Triggers the effects on each selected entity.  
 <ul>
 <li><code>obj</code> can be:  
 <ul>

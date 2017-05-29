@@ -168,7 +168,7 @@ This is an example of a custom sprite that the engine can use:<br />
 <img src="img/custom_sprite.png" alt="Custom Sprite" /><br />
 This is the sprite of Duran in the demo, used when the pose <code>atk</code> is called. That sprite has 4 columns, hence that configuration:</p>
 <pre><code class="language-javascript">["atk", "_atk", 4],</code></pre>
-<p>Once your configuration module is completed, it is assigned to a battler based on the module's name or on that tag: <code>sprite_config: string</code>. The battler whose name matches the module name will automatically use that module.</p>
+<p>Once your configuration module is completed, it is assigned to a battler based on the module's name or on that tag: <code>sprite_config: string</code>. The battler whose name match the module name will automatically use that module.</p>
 <h3 id="using-characters">Using Characters</h3>
 <p>If you're using the add-on <code>LeTBS_RTPUse</code>, the fastest way to configure the graphic of an actor is to use the tag <code>use_character</code> inside the actor's notebox. That way, the character of that actor will be used as a sprite in battles.  </p>
 <p>As for enemies, two tags are used: <code>character_name: string</code> and <code>character_index: numeric</code>. These tags are meant to specify which character to use for that enemy. Let's take for example this file in MV RTP:  </p>
@@ -189,6 +189,8 @@ Example: <code>sprite_tone: 175, 175, 5, 150</code> (fire-ish effect).</li>
 <li><code>sprite_hue: numeric</code><br />
 Set the hue of a battler sprite. This has the same effect as the &quot;hue&quot; parameter in the database.
 Examples: <code>sprite_hue: 150</code>.</li>
+<li><code>loop_animation: ANIM_ID</code><br />
+An animation will be played endlessly on the entity.</li>
 </ul>
 <h2 id="turn-order-graphics">Turn Order Graphics</h2>
 <p>The turn order systems need some graphics to run properly. They should be located in the folder <strong>img/LeTBS/TurnOrder</strong>. Firstly, it needs 3 graphics to represent which type of battler is displayed in the hud. They should be called that way:</p>
@@ -199,9 +201,9 @@ Examples: <code>sprite_hue: 150</code>.</li>
 </ul>
 <p>These files in the demo are the following:<br />
 <img src="img/TurnOrder__Actor.png" alt="" /> <img src="img/TurnOrder__Enemy.png" alt="" /> <img src="img/TurnOrder__On.png" alt="" />  </p>
-<p>Then, each battler is displayed as an icon in that hud. If you're using the add-on <code>LeTBS_RTPUse</code>, simply use this tag inside actors or enemies notebox: <code>auto_turn_order_face</code>. The idle pose will be used as an icon. If you wish to use a custom graphic, insert it into the folder <strong>img/LeTBS/TurnOrder</strong> and make sure its dimensions are 40x40. The name of that graphic should be the name of the battler who's supposed to use it. If that battler has the tag <code>sprite_name: string</code>, then the filename should matches that value.</p>
+<p>Then, each battler is displayed as an icon in that hud. If you're using the add-on <code>LeTBS_RTPUse</code>, simply use this tag inside actors or enemies notebox: <code>auto_turn_order_face</code>. The idle pose will be used as an icon. If you wish to use a custom graphic, insert it into the folder <strong>img/LeTBS/TurnOrder</strong> and make sure its dimensions are 40x40. The name of that graphic should be the name of the battler who's supposed to use it. If that battler has the tag <code>sprite_name: string</code>, then the filename should match that value.</p>
 <h2 id="status-window-graphics">Status Window graphics</h2>
-<p>WIP.</p>
+<p>The sprites drawn in the status windows are located in the <strong>img/LeTBS/Status</strong> folder. But using the add-on <code>LeTBS_RTPUse</code> and the tag <code>auto_status_sprite</code>, the system can automaticaly uses entities' sprite in the window.</p>
 <h2 id="other-graphics">Other graphics</h2>
 <p>The engine need these other graphics. They should be inside the <strong>img/LeTBS</strong> folder:</p>
 <ul>
