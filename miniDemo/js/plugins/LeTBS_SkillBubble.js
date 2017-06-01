@@ -79,11 +79,15 @@ Window_TBSSkillBubble.prototype.initialize = function (entity) {
     this._entity = entity;
     this._item = null;
     Window_Base.prototype.initialize.call(this, 0, 0, 20, 20);
-    this.hide();
+    this.close();
 };
 
 Window_TBSSkillBubble.prototype.loadWindowskin = function() {
     this.windowskin = ImageManager.loadSystem('Window2');
+};
+
+Window_TBSSkillBubble.prototype.standardBackOpacity = function() {
+    return 255;
 };
 
 Window_TBSSkillBubble.prototype.standardPadding = function() {
@@ -106,7 +110,7 @@ Window_TBSSkillBubble.prototype.updateProcess = function () {
     this.updatePosition();
     if (this._set) {
         this.updateShake();
-        this.updateFade();
+        //this.updateFade();
         this.updateIntroY();
     }
 };
@@ -132,14 +136,11 @@ Window_TBSSkillBubble.prototype.updateShake = function () {
 
 Window_TBSSkillBubble.prototype.updateFade = function () {
     this.opacity -= 3;
-    this.contentsOpacity -= 3;
-    //this.backOpacity -= 3;
     if (this.opacity <= 0) {
         this.opacity = 0;
-        this.contentsOpacity = 0;
-        this.backOpacity = 0;
         this.hide();
     }
+    this.contentsOpacity = this.backOpacity = this.opacity;
 };
 
 Window_TBSSkillBubble.prototype.updateIntroY = function () {
@@ -167,14 +168,12 @@ Window_TBSSkillBubble.prototype.set = function (item) {
     this.move(0,0,width,height);
     this.createContents();
     this.refresh();
-    this.backOpacity = 255;
-    this.opacity = 255;
-    this.contentsOpacity = 255;
-    this.show();
+    this.open();
     this._introY = 40;
     this._shakeEffect = {
         power: 2,
         duration: 60
     };
     this._set = true;
+    setTimeout(this.close.bind(this), 1000);
 };
