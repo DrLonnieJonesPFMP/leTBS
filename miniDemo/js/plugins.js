@@ -26,10 +26,11 @@ var $plugins =
 {"name":"LeTBS_TacticalMode","status":true,"description":"Render the map following the \"tactical mode\" of Dofus","parameters":{"Hard Obstacle Color":"#2E2E2E","Light Obstacle Color":"#0","Free Cell Color":"#898989","Opacity":"175","Command Text":"Tactical Mode"}},
 {"name":"LeTBS_AutoBattle","status":true,"description":"Add an auto battle mode","parameters":{"Command Text":"Auto Battle","Input":"tab"}},
 {"name":"LeTBS_SkillBubble","status":true,"description":"Draw a window when a skill is used","parameters":{}},
+{"name":"LeTBS_TimelineControl","status":true,"description":"Add features related to the timeline","parameters":{}},
 {"name":"-------------------------","status":true,"description":"","parameters":{}},
 {"name":"YEP_X_SkillCooldowns","status":true,"description":"v1.11 (Requires YEP_SkillCore.js) Cooldowns can be applied\nto skills to prevent them from being used continuously.","parameters":{"---Cooldown---":"","Cooldown Format":"%1CD","Cooldown Font Size":"20","Cooldown Text Color":"6","Cooldown Icon":"75","Cooldown After Battle":"-10","Cooldown Steps":"5","Cooldown Bypass":"1 2 3 4 5 6 7","---Warmup---":"","Warmup Format":"%1WU","Warmup Font Size":"20","Warmup Text Color":"4","Warmup Icon":"75","---Battle Core---":"","Time Based":"false","Turn Time":"100"}},
 {"name":"Rhyme_MapSmoothScrolling","status":true,"description":"this plugin permit to smooth scroll in map","parameters":{"SpeedDivider":"8"}},
 {"name":"LeDamageFormula","status":true,"description":"Adds balanced damage formula","parameters":{}},
 {"name":"LeSkipTitleScreen","status":true,"description":"","parameters":{}},
-{"name":"LePreloading","status":true,"description":"Preload entire folder of images","parameters":{"Folders":"[/img/leTBS/Battlers, /img/animations]","Preload Sounds":"true"}}
+{"name":"LePreloading","status":false,"description":"Preload entire folder of images","parameters":{"Folders":"[/img/leTBS/Battlers, /img/animations]","Preload Sounds":"true"}}
 ];

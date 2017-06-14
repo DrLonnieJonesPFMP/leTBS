@@ -3,7 +3,7 @@
 # LeTBS: Damage Popup EX
 # LeTBS_DamagePopupEX.js
 # By Lecode
-# Version 1.1
+# Version 1.2
 #-----------------------------------------------------------------------------
 # TERMS OF USE
 #-----------------------------------------------------------------------------
@@ -13,6 +13,7 @@
 #-----------------------------------------------------------------------------
 # - 1.0 : Initial release
 # - 1.1 : Support move points popup
+# - 1.2 : Added text popup
 #=============================================================================
 */
 var Imported = Imported || {};
@@ -23,7 +24,7 @@ Lecode.S_TBS.DamagePopupEX = {};
 /*:
  * @plugindesc Improve popups and show states alterations
  * @author Lecode
- * @version 1.1
+ * @version 1.2
  *
  * @help
  * ...
@@ -50,6 +51,10 @@ Lecode.S_TBS.DamagePopupEX.oldTBSEntity_onTurnEnd = TBSEntity.prototype.onTurnEn
 TBSEntity.prototype.onTurnEnd = function () {
     this.prepareExtraPopups();
     Lecode.S_TBS.DamagePopupEX.oldTBSEntity_onTurnEnd.call(this);
+};
+
+TBSEntity.prototype.addTextPopup = function (text) {
+    this._sprite.addTextPopup(text);
 };
 
 /*-------------------------------------------------------------------------
@@ -92,13 +97,17 @@ TBSEntity_Sprite.prototype.addExtraPopup = function (type, args) {
 
 TBSEntity_Sprite.prototype.shiftPreviousPopups = function (sign) {
     sign = 1 || sign;
-    if (!this._popups.length > 0) return;
+    if (this._popups.length === 0) return;
     var delta = Math.abs(this._popups[0].y - this.y);
     var shift = delta > Lecode.S_TBS.DamagePopupEX.shiftY ? 0 : Lecode.S_TBS.DamagePopupEX.shiftY;
     for (var i = 0; i < this._popups.length; i++) {
         var popup = this._popups[i];
         popup.y -= shift * sign;
     }
+};
+
+TBSEntity_Sprite.prototype.addTextPopup = function (text) {
+    this.addExtraPopup("text",[text]);
 };
 
 
@@ -119,6 +128,8 @@ Sprite_Damage.prototype.extraSetup = function (type, args) {
         this.createRemovedStates(args[0]);
     else if (type === "movePoints")
         this.createMovePoints(args[0]);
+    else if (type === "text")
+        this.createText(args[0]);
 };
 
 Sprite_Damage.prototype.createAddedStates = function (state) {
@@ -158,7 +169,15 @@ Sprite_Damage.prototype.createMovePoints = function (value) {
     this.drawText(sprite, text, 12, y, w);
     this._flashColor = [175, 175, 0, 160];
     this._flashDuration = 90;
-    
+};
+
+Sprite_Damage.prototype.createText = function (text, fontSize, color) {
+    fontSize = fontSize || 28;
+    var textW = this._damageBitmap.measureTextWidth(text);
+    var w = 2 + textW;
+    var h = fontSize + 2;
+    var sprite = this.createExtraChildSprite(w, h);
+    this.drawText(sprite, text, 1, 0, w);
 };
 
 Sprite_Damage.prototype.createExtraChildSprite = function (w, h) {

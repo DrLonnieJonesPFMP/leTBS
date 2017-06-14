@@ -230,7 +230,7 @@ Lecode.S_TBS.Config.Sequences = {
 
     "map_skill": [
         "call: pre-skill",
-        "map_effects: aoe, current_obj, obj_anim, 0, true",
+        "map_effects: {aoe}, current_obj, obj_anim, 0, true",
         "call: post-skill"
     ],
 
@@ -252,7 +252,7 @@ Lecode.S_TBS.Config.Sequences = {
     "map_skill_neutral": [
         "play_pose: user, cast",
         "wait: 15",
-        "map_effects: aoe, current_obj, obj_anim, 0, true",
+        "map_effects: {aoe}, current_obj, obj_anim, 0, true",
         "play_pose: user, idle",
         "wait: 20"
     ],
