@@ -49,7 +49,7 @@
                             </p>
 
                             <ul class="nav nav-pills nav-stacked">
-                                                                    <li class="active">
+                                                                    <li class="">
                                         <a href="https://lecodemv.github.io/leTBS/index.html">
                                             Getting Started
                                         </a>
@@ -110,7 +110,7 @@
                             </p>
 
                             <ul class="nav nav-pills nav-stacked">
-                                                                    <li class="">
+                                                                    <li class="active">
                                         <a href="https://lecodemv.github.io/leTBS/tags.html">
                                             All Tags
                                         </a>
@@ -142,66 +142,202 @@
 
                 
                 <section class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
-                    <p>The documentation is currently updated for the <strong>0.7 version</strong>.</p>
-<h2 id="minimal-configuration">Minimal Configuration</h2>
-<p>In order to run properly LeTBS, you will need the following plugins. You can grab them from the demo or on the github page.
-The core plugin is obviously required but some add-ons can be removed.
-This order is recommended.</p>
+                    <p>[actor]: img/icon_actor.png &quot;&quot;
+[enemy]: img/icon_enemy.png &quot;&quot;
+[equip]: img/icon_equip.png &quot;&quot;
+[state]: img/icon_state.png &quot;&quot;
+[skill]: img/icon_skill.png &quot;&quot;</p>
 <ul>
-<li>LeUtilities  </li>
-<li>easystar<br />
-<strong>Core plugins:</strong></li>
-<li>LeTBS  </li>
-<li>LeTBSConfig  </li>
-<li>LeTBSWindows  </li>
-<li>LeTBSTurnOrderA<br />
-<strong>Add-ons:</strong></li>
-<li>LeTBS_DamagePopupEX</li>
-<li>LeTBS_TilesMarksAuraEffects</li>
-<li>LeTBS_WinConditions</li>
-<li>LeTBS_Summoning</li>
-<li>LeTBS_RhymeSmoothMapScrolling</li>
-<li>LeTBS_BattleLog  </li>
-<li>LeTBS_EntityHud</li>
-<li>LeTBS_RTPUse    </li>
+<li>![][actor] : Can be used for actors and classes</li>
+<li>![][enemy] : Can be used for enemies</li>
+<li>![][equip] : Can be used for equipment</li>
+<li>![][state] : Can be used for states</li>
+<li>![][skill] : Can be used for skills and items</li>
 </ul>
-<p><a href="http://www.easystarjs.com/"><strong>easystar</strong> is a fast and reliable path finding library</a>. It's required to run LeTBS.  </p>
-<p>If you're using Yanfly's plugins, proceed as following:  </p>
+<p>The tag priority is the following: <strong>State &gt; Equipment &gt; Skill &gt; Battler</strong>.</p>
+<h2 id="actions">Actions</h2>
 <ul>
-<li>YEP_CoreEngine</li>
-<li>YEP_BattleEngine</li>
-<li>... (Yanfly's Core plugins)</li>
-<li>(LeTBS plugins)</li>
-<li>(Other Yanfly's plugins)  </li>
+<li><code>move_points: numeric</code><br />
+Set the base move points.<br />
+![][actor]![][enemy]</li>
+<li><code>move_points: +numeric</code><br />
+Add move points to the battler.<br />
+![][equip]![][state]</li>
+<li><code>move_scope: scope_data</code><br />
+Set the base move scope.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>move_scope_options: option1, option2, ...</code><br />
+Add options to the move scope.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>atk_anim: anim_id</code><br />
+Set the attack animation.<br />
+![][enemy]  </li>
+<li><code>atk_scope: scope_data</code><br />
+Set the attack scope.<br />
+![][enemy]  </li>
+<li><code>atk_aoe: scope_data</code><br />
+Set the attack AoE.<br />
+![][enemy]</li>
+<li><code>atk_sequence: sequence_id</code><br />
+Set the attack sequence.<br />
+![][enemy]</li>
+<li><code>one_time_move</code><br />
+With this tag, the blatter can only move one time, regardless of his remaining move points.<br />
+![][actor]![][enemy]</li>
+<li><code>one_time_offense</code><br />
+With this tag, the battler can only perform one attack or one skill in his turn.<br />
+![][actor]![][enemy]</li>
+<li><code>collapse_anim: anim_id</code><br />
+Set the collapse animation.<br />
+![][actor]![][enemy]</li>
+<li><code>pass_on_atk_use</code><br />
+The battler will immediately end his turn after using the attack command.<br />
+![][actor]![][enemy]</li>
+<li><code>sequence(old): new</code>
+Overload the old sequence.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>scope: scope_data</code><br />
+Set the scope.<br />
+![][skill]</li>
+<li><code>sope_options: option1, option2, ...</code><br />
+Set the scope options.<br />
+![][skill]</li>
+<li><code>aoe_options: option1, option2, ...</code><br />
+Set the aoe options.<br />
+![][skill]</li>
+<li><code>aoe: scope_data</code><br />
+Set the aoe.<br />
+![][skill]</li>
+<li><code>sequence: sequence_id</code><br />
+Set the sequence.<br />
+![][skill]</li>
+<li><code>pass_on_use</code><br />
+Make the user immediatelly pass his turn after the use.<br />
+![][skill]</li>
+<li><code>max_use: numeric</code><br />
+Set the maximum of use per turn.<br />
+![][skill]</li>
+<li><code>collision_formula: string</code><br />
+Set the collision formula damage. The default one is in the plugin parameters.<br />
+![][skill]</li>
+<li><code>change_move_points: +numeric</code><br />
+Alter the move points of the targets.<br />
+![][skill]
+<h2 id="extra-damage">Extra Damage</h2></li>
+<li><code>collision_damage_bonus: numeric</code><br />
+Add flat collision damage.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>collision_damage_bonus%: numeric</code><br />
+Increase the collision damage rate. For instance, with 200 as the collision damage and the tag collision_damage_bonus%: 50, the collision damage will turn out to be 300.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>collision_damage_reduction: numeric</code><br />
+Reduce the received collision damage by a flat amount.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>collision_damage_reduction%: numeric</code><br />
+Reduce the rate of received collision damage.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>immune_knockback</code><br />
+The battler can't be pushed.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>knockback_bonus: numeric</code><br />
+Increase the distance of the knockback effect of the battler's actions.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>knockback_reduction: numeric</code><br />
+Reduce the knockback distance when pushed.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>back_dmg_bonus: numeric</code><br />
+Increase the rate of the inflicted back damage.<br />
+![][actor]![][enemy]![][equip]![][state]![][skill]</li>
+<li><code>back_dmg_reduction: numeric</code><br />
+Reduce the rate of the received back damage.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>side_dmg_bonus: numeric</code><br />
+Increase the rate of the inflicted side damage.<br />
+![][actor]![][enemy]![][equip]![][state]![][skill]</li>
+<li><code>side_dmg_reduction: numeric</code><br />
+Reduce the rate of the received side damage.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>front_dmg_bonus: numeric</code><br />
+Increase the rate of the inflicted front damage.<br />
+![][actor]![][enemy]![][equip]![][state]![][skill]</li>
+<li><code>front_dmg_reduction: numeric</code><br />
+Reduce the rate of the received front damage.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>immune_to_marks: id1, id2, ...</code><br />
+Set marks immunity.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>immune_to_tile_effects: id1, id2, ...</code><br />
+Set tile effects immunity.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>immune_to_auras: id1, id2, ...</code><br />
+Set auras immunity.<br />
+![][actor]![][enemy]![][equip]![][state]
+<h2 id="sprite">Sprite</h2></li>
+<li><code>sprite_name: string</code><br />
+Set the battler's filename. By default it's equal to his name in the database.<br />
+![][actor]![][enemy]</li>
+<li><code>sprite_config: config_id</code><br />
+Set the battler sprite configuration id.<br />
+![][actor]![][enemy]</li>
+<li><code>sprite_scale: x,y</code><br />
+Set the sprite's scale.<br />
+![][actor]![][enemy]</li>
+<li><code>sprite_tone: r,g,b,gray</code><br />
+Set the sprite's tone.<br />
+![][actor]![][enemy]</li>
+<li><code>sprite_hue: numeric</code><br />
+Set the sprite's hue.<br />
+![][actor]![][enemy]</li>
+<li><code>loop_animation: anim_id</code><br />
+Set a loop animation to the sprite.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>hide_status_window</code><br />
+Hide the status window of the battler.<br />
+![][actor]![][enemy]</li>
+<li><code>passable</code><br />
+With this tag entities can walk through the battler.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>passable_on_death</code><br />
+With this tag, entities can walk through the battler if he's dead.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>has_no_corpse</code>
+With this tag the battler won't have a dead pose. He won't appear in the map at the death.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>entities_can_stay_on_me</code><br />
+With this tag entities can stay on the battler. <strong>Not recommended right now. Having two battlers on the same cell creates a bug</strong>.<br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>entities_can_stay_on_me_on_death</code><br />
+With this tag entities can stay on the battler if he's dead. <strong>Not recommended</strong><br />
+![][actor]![][enemy]![][equip]![][state]</li>
+<li><code>use_character</code><br />
+Use the actor's character in battle.<br />
+![][actor]</li>
+<li><code>character_name: string</code><br />
+Use the specified character in battle for the enemy.<br />
+![][enemy]</li>
+<li><code>character_index: numeric</code><br />
+Set the character index.<br />
+![][enemy] </li>
+<li><code>auto_turn_order_face</code><br />
+Use automatically the battle sprite in the turn order hud.<br />
+![][actor]![][enemy]</li>
+<li><code>auto_status_sprite</code>
+Use automatically the battle sprite in the status window.<br />
+![][actor]![][enemy]
+<h2 id="ai">AI</h2></li>
+<li><code>ai_pattern: pattern_id</code><br />
+See the AI page.<br />
+![][actor]![][enemy]</li>
+<li><code>ai_control</code><br />
+Set the actor as playable by the AI.<br />
+![][actor]![][equip]![][state]</li>
+<li><code>ai_no_attack</code><br />
+For AI actors. They won't be able to use the attack command.<br />
+![][actor]</li>
+<li><code>focused_by_ai_for{ai_skill_type}: priority</code>
+Force the AI to focus its skills on a the battler.<br />
+![][equip]![][state]  </li>
 </ul>
-<h2 id="folder-configuration">Folder configuration</h2>
-<p>The system need a special folder to locate graphics. Create a folder <strong>LeTBS</strong> inside <strong>img</strong>.
-In that folder create the following ones: <strong>Battlers</strong>, <strong>Projectiles</strong>, <strong>Status</strong>, <strong>TurnOrder</strong>. In that same folder you should also have some graphics required for the system.
-I suggest you to simply copy/past the <strong>img/LeTBS</strong> folder from the demo.</p>
-<p>Then, set up your actors and enemies graphics following the next page.</p>
-<h2 id="tags">Tags</h2>
-<p>There are two tags that LeTBS uses. One for AI configuration and one for a more general configuration.<br />
-<code>The main tag</code>:</p>
-<pre><code>&lt;letbs&gt;
-instruction
-another instruction
-…
-&lt;/letbs&gt;</code></pre>
-<p><code>The ai tag</code>:  </p>
-<pre><code>&lt;letbs_AI&gt;
-instruction
-another instruction
-…
-&lt;/letbs_AI&gt;</code></pre>
-<p>Further in the documentation you'll be asked to insert an instruction to a specific tag. It means filling that tag with a new line. For example the main tag with the instructions <code>scope: circle(2)</code> and <code>aoe: square(1)</code> will look like this:  </p>
-<pre><code>&lt;letbs&gt;
-scope: circle(2)
-aoe: square(1)
-&lt;/letbs&gt;</code></pre>
-<p>That tag is then applied to a skill or an equipment or whatever database object, depending on your needs.  </p>
-<p><strong>For convenience, further in this documentation, <code>tag</code> will refer to an instruction to be assigned to the main tag, and <code>ai tag</code> will refer to an instruction to be assigned to the ai tag.</strong></p>
-<h2 id="the-configuration-file">The configuration file</h2>
-<p>One of the core plugins of this project is <strong>LeTBSConfig.js</strong>. This is actually a configuration file used to customize your TBS as you wish. This file is really important and should be preserved. Make a backup of that file frequently. The next pages cover how to use and modify that file based on the result you're seeking for. </p>
                 </section>
 
             </div>

@@ -49,7 +49,7 @@
                             </p>
 
                             <ul class="nav nav-pills nav-stacked">
-                                                                    <li class="active">
+                                                                    <li class="">
                                         <a href="https://lecodemv.github.io/leTBS/index.html">
                                             Getting Started
                                         </a>
@@ -142,66 +142,9 @@
 
                 
                 <section class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
-                    <p>The documentation is currently updated for the <strong>0.7 version</strong>.</p>
-<h2 id="minimal-configuration">Minimal Configuration</h2>
-<p>In order to run properly LeTBS, you will need the following plugins. You can grab them from the demo or on the github page.
-The core plugin is obviously required but some add-ons can be removed.
-This order is recommended.</p>
-<ul>
-<li>LeUtilities  </li>
-<li>easystar<br />
-<strong>Core plugins:</strong></li>
-<li>LeTBS  </li>
-<li>LeTBSConfig  </li>
-<li>LeTBSWindows  </li>
-<li>LeTBSTurnOrderA<br />
-<strong>Add-ons:</strong></li>
-<li>LeTBS_DamagePopupEX</li>
-<li>LeTBS_TilesMarksAuraEffects</li>
-<li>LeTBS_WinConditions</li>
-<li>LeTBS_Summoning</li>
-<li>LeTBS_RhymeSmoothMapScrolling</li>
-<li>LeTBS_BattleLog  </li>
-<li>LeTBS_EntityHud</li>
-<li>LeTBS_RTPUse    </li>
-</ul>
-<p><a href="http://www.easystarjs.com/"><strong>easystar</strong> is a fast and reliable path finding library</a>. It's required to run LeTBS.  </p>
-<p>If you're using Yanfly's plugins, proceed as following:  </p>
-<ul>
-<li>YEP_CoreEngine</li>
-<li>YEP_BattleEngine</li>
-<li>... (Yanfly's Core plugins)</li>
-<li>(LeTBS plugins)</li>
-<li>(Other Yanfly's plugins)  </li>
-</ul>
-<h2 id="folder-configuration">Folder configuration</h2>
-<p>The system need a special folder to locate graphics. Create a folder <strong>LeTBS</strong> inside <strong>img</strong>.
-In that folder create the following ones: <strong>Battlers</strong>, <strong>Projectiles</strong>, <strong>Status</strong>, <strong>TurnOrder</strong>. In that same folder you should also have some graphics required for the system.
-I suggest you to simply copy/past the <strong>img/LeTBS</strong> folder from the demo.</p>
-<p>Then, set up your actors and enemies graphics following the next page.</p>
-<h2 id="tags">Tags</h2>
-<p>There are two tags that LeTBS uses. One for AI configuration and one for a more general configuration.<br />
-<code>The main tag</code>:</p>
-<pre><code>&lt;letbs&gt;
-instruction
-another instruction
-…
-&lt;/letbs&gt;</code></pre>
-<p><code>The ai tag</code>:  </p>
-<pre><code>&lt;letbs_AI&gt;
-instruction
-another instruction
-…
-&lt;/letbs_AI&gt;</code></pre>
-<p>Further in the documentation you'll be asked to insert an instruction to a specific tag. It means filling that tag with a new line. For example the main tag with the instructions <code>scope: circle(2)</code> and <code>aoe: square(1)</code> will look like this:  </p>
-<pre><code>&lt;letbs&gt;
-scope: circle(2)
-aoe: square(1)
-&lt;/letbs&gt;</code></pre>
-<p>That tag is then applied to a skill or an equipment or whatever database object, depending on your needs.  </p>
-<p><strong>For convenience, further in this documentation, <code>tag</code> will refer to an instruction to be assigned to the main tag, and <code>ai tag</code> will refer to an instruction to be assigned to the ai tag.</strong></p>
-<h2 id="the-configuration-file">The configuration file</h2>
-<p>One of the core plugins of this project is <strong>LeTBSConfig.js</strong>. This is actually a configuration file used to customize your TBS as you wish. This file is really important and should be preserved. Make a backup of that file frequently. The next pages cover how to use and modify that file based on the result you're seeking for. </p>
+                    <h2 id="call-an-entity">Call an Entity</h2>
+<p>Entities are called during an action sequence, with the command <code>summon: ID, cells</code>.</p>
+<h2 id="create-a-summon">Create a Summon</h2>
                 </section>
 
             </div>

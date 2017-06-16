@@ -94,6 +94,16 @@
                                             AI
                                         </a>
                                     </li>
+                                                                    <li class="">
+                                        <a href="https://lecodemv.github.io/leTBS/win_conditions.html">
+                                            Win Conditions
+                                        </a>
+                                    </li>
+                                                                    <li class="">
+                                        <a href="https://lecodemv.github.io/leTBS/eventing.html">
+                                            Eventing
+                                        </a>
+                                    </li>
                                                             </ul>
                                                     <p class="text-muted">
                                 Resources
@@ -145,7 +155,7 @@ Moreover, skills an weapons can directly alter move points with the tag <code>ch
 <p>You can also set a battler as <strong>passable</strong> with the tag <code>passable</code>. The tag <code>passable_on_death</code> has the same role but in the case where the battler is dead.
 The tag <code>entities_can_lay_on_me</code> allow other battlers to end their move on the battler in question.</p>
 <p>By default, battlers can move as long as they have move points. Use the tag <code>one_time_move</code> on an actor or enemy notebox to allow only one move action per turn. </p>
-<h2 id="using-skills-and-items">Using Skills and Items</h2>
+<h3 id="using-skills-and-items">Using Skills and Items</h3>
 <p>You can define a scope, an AoE and a sequence for skills and items.
 Use <code>scope: data</code>, <code>aoe: data</code> and <code>sequence: data</code>.
 Refer to the Scope and Sequence sections below. Sequences defines how a skill or an item is used.</p>
@@ -158,10 +168,12 @@ It can also be used for weapons.  </p>
 <li>Directional damage</li>
 <li>Knockback damage  </li>
 </ul>
+<h3 id="directional-damage">Directional Damage</h3>
 <p>The following parameters in <code>LeTBS.js</code> let you set up the % extra damage an action get when used on a specific side of the target: <code>Back Directional Damage Effects</code>, <code>Side Directional Damage Effects</code>, <code>Face Directional Damage Effects</code>. By default they are at 15%, 0% and -10% respectively.<br />
 It means for instance that when a battler attacks another one on the back, his actions get a 15% damage bonus.<br />
-The tags <code>back_dmg_bonus: numeric</code>, <code>side_dmg_bonus: numeric</code> and <code>face_dmg_bonus: numeric</code> can be applied on actors, equipment and states to increase the directional damage bonuses. An actor wearing an equipment taged with <code>back_dmg_bonus: 30%</code> will get an extra 30% damage bonus when attacking on the back.<br />
-The tags <code>back_dmg_reduction: numeric</code>, <code>side_dmg_reduction: numeric</code> and <code>face_dmg_reduction: numeric</code> protect battlers from directional damage. A battler with the tag <code>back_dmg_reduction: 50%</code> will receive 50% less damage when attacked on the back.  </p>
+The tags <code>back_dmg_bonus: numeric</code>, <code>side_dmg_bonus: numeric</code> and <code>front_dmg_bonus: numeric</code> can be applied on actors, equipment and states to increase the directional damage bonuses. An actor wearing an equipment taged with <code>back_dmg_bonus: 30%</code> will get an extra 30% damage bonus when attacking on the back.<br />
+The tags <code>back_dmg_reduction: numeric</code>, <code>side_dmg_reduction: numeric</code> and <code>front_dmg_reduction: numeric</code> protect battlers from directional damage. A battler with the tag <code>back_dmg_reduction: 50%</code> will receive 50% less damage when attacked on the back.  </p>
+<h2 id="knockback-damage">Knockback Damage</h2>
 <p>Knockback damage occur when a battler is pulled or pushed against an obstacle (it can be another battler). These damage are evaluated based on a formula set in the parameter <code>Default Collision Formula</code>. Its value by default is <code>b.mhp * 0.05 * (distance-covered)</code>.<br />
 <code>distance</code> is the distance to which the battler is pulled or pushed, and <code>covered</code> is the number of cells he reached.<br />
 Weapons and skills can have their own knockback formula. Use the tag: <code>collision_formula: string</code>.  </p>

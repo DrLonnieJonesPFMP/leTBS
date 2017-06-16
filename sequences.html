@@ -94,6 +94,16 @@
                                             AI
                                         </a>
                                     </li>
+                                                                    <li class="">
+                                        <a href="https://lecodemv.github.io/leTBS/win_conditions.html">
+                                            Win Conditions
+                                        </a>
+                                    </li>
+                                                                    <li class="">
+                                        <a href="https://lecodemv.github.io/leTBS/eventing.html">
+                                            Eventing
+                                        </a>
+                                    </li>
                                                             </ul>
                                                     <p class="text-muted">
                                 Resources
@@ -355,7 +365,7 @@ Teleport the user near the entity. if <code>end_if_imposible</code> is true, the
 <h3 id="summoning-commands">Summoning Commands</h3>
 <ul>
 <li><strong><code>projectile: ID, start_cell, end_cell</code></strong><br />
-Create a projectile based on its identification. It’ll travel from <code>start_cell</code> to <code>end_cell</code>. Take a look at the projectiles section.</li>
+Create a projectile based on its identification. It’ll travel from <code>start_cell</code> to <code>end_cell</code>. Take a look at the projectiles section. Selected cells can be entities.</li>
 <li><strong><code>mark: ID, cells</code></strong><br />
 <em>(Requires the mark add-on)</em><br />
 Create a mark based on its identification on each cell.</li>
@@ -366,7 +376,7 @@ Summon entities on each cell.</li>
 <h3 id="call-commands">Call Commands</h3>
 <ul>
 <li><strong><code>call: sequence_ID, x</code></strong><br />
-Call a sequence <code>x</code> times. The current sequence will wait until the end of the called sequence.</li>
+Call a sequence <code>x</code> times. The current sequence will wait until the end of the called sequences.</li>
 <li><strong><code>call_for_every_cell: sequence_ID, cells, sort_type</code></strong><br />
 Call a sequence one time for every selected cell. The cursor cell will be updated for every cell. 
 <ul>
@@ -380,11 +390,11 @@ Call a sequence one time for every selected cell. The cursor cell will be update
 <li><strong><code>call_for_every_entity: sequence_ID, entities, sort_type</code></strong><br />
 Call a sequence one time for every selected entity. The cursor cell is updated for every entity.</li>
 <li><strong><code>delegate_call: sequence_ID, entity</code></strong><br />
-A sequence will be called but the designed entity will be considered as the user of that sequence. So, <code>user</code> in the called sequence will refer to <code>entity</code>.</li>
+A sequence will be called but the designated entity will be considered as the user of that sequence. So, <code>user</code> in the called sequence will refer to <code>entity</code>.</li>
 <li><strong><code>end_delegate_call: -</code></strong><br />
 Ends the delegated call. Must be used to stop the reference to the fake user.</li>
 <li><strong><code>ask_sequence: sequence_ID, entities</code></strong><br />
-The selected entities will start the designated sequence. </li>
+Make selected entities play a sequence. The current sequence doesn't stop. </li>
 <li><strong><code>use_skill: entities, skill_id</code></strong><br />
 The selected entities will use the designated skill. The AoE of that skill will be based on the cursor cell. <code>ask_sequence</code> is indirectly called there.</li>
 </ul>
@@ -394,17 +404,13 @@ Use <code>ask_sequence</code> for <strong>synchronous actions</strong>.</p>
 <ul>
 <li><strong><code>wait: x</code></strong><br />
 The sequence will wait x frames.</li>
-<li><strong><code>set_battler_targets: entities</code></strong>
-Save the selected entities as targets. They can be referenced later with last_target_battlers.</li>
-<li><strong><code>set_cell_targets: cells</code></strong><br />
-Save the selected cells as targets. They can be referenced later with last_cell_battlers.</li>
 <li><strong><code>save_cells: id, cells, option</code></strong><br />
 Save the selected cells as targets. They can be referenced later by an ID
 with <code>saved(id)</code>. If <code>option</code> is shift, only the first cell from the selected ones is saved. But
-it is removed from them beforehand. This means that cell becomes unique and can’t be selected again. For example: “save_cells: test, aoe, shift” will
-select the first cell from aoe, save it with the ID test and remove it from the main aoe.</li>
+it is removed from them beforehand. This means that <code>cell</code> becomes unique and can’t be selected again. For example: “save_cells: test, aoe, shift” will select the first cell from aoe, save it with the ID test and remove it from the main aoe.
+This option is then useful to loop through an aoe. The command <code>call_for_every_cell</code> uses it.</li>
 <li><strong><code>save_entities: id, entities, option</code></strong><br />
-Save the selected entities as targets. They can be referenced later by an ID with saved(id).</li>
+Save the selected entities as targets. They can be referenced later by an ID with <code>saved(id)</code>.</li>
 <li><strong><code>script: code</code></strong><br />
 Evaluate the code.</li>
 </ul>
