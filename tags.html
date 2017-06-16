@@ -152,10 +152,10 @@
 <p>The tag priority is the following: <strong>State &gt; Equipment &gt; Skill &gt; Battler</strong>.</p>
 <h2 id="actions">Actions</h2>
 <ul>
-<li><code>move_points: numeric</code><br />
+<li><code>move_points: number</code><br />
 Set the base move points.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /></li>
-<li><code>move_points: +numeric</code><br />
+<li><code>move_points: +number</code><br />
 Add move points to the battler.<br />
 <img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /></li>
 <li><code>move_scope: scope_data</code><br />
@@ -209,53 +209,53 @@ Set the sequence.<br />
 <li><code>pass_on_use</code><br />
 Make the user immediatelly pass his turn after the use.<br />
 <img src="img/icon_skill.png" alt="" /></li>
-<li><code>max_use: numeric</code><br />
+<li><code>max_use: number</code><br />
 Set the maximum of use per turn.<br />
 <img src="img/icon_skill.png" alt="" /></li>
 <li><code>collision_formula: string</code><br />
 Set the collision formula damage. The default one is in the plugin parameters.<br />
 <img src="img/icon_skill.png" alt="" /></li>
-<li><code>change_move_points: +numeric</code><br />
+<li><code>change_move_points: +number</code><br />
 Alter the move points of the targets.<br />
 <img src="img/icon_skill.png" alt="" />
 <h2 id="extra-damage">Extra Damage</h2></li>
-<li><code>collision_damage_bonus: numeric</code><br />
+<li><code>collision_damage_bonus: number</code><br />
 Add flat collision damage.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /><img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /></li>
-<li><code>collision_damage_bonus%: numeric</code><br />
+<li><code>collision_damage_bonus%: number</code><br />
 Increase the collision damage rate. For instance, with 200 as the collision damage and the tag collision_damage_bonus%: 50, the collision damage will turn out to be 300.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /><img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /></li>
-<li><code>collision_damage_reduction: numeric</code><br />
+<li><code>collision_damage_reduction: number</code><br />
 Reduce the received collision damage by a flat amount.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /><img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /></li>
-<li><code>collision_damage_reduction%: numeric</code><br />
+<li><code>collision_damage_reduction%: number</code><br />
 Reduce the rate of received collision damage.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /><img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /></li>
 <li><code>immune_knockback</code><br />
 The battler can't be pushed.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /><img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /></li>
-<li><code>knockback_bonus: numeric</code><br />
+<li><code>knockback_bonus: number</code><br />
 Increase the distance of the knockback effect of the battler's actions.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /><img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /></li>
-<li><code>knockback_reduction: numeric</code><br />
+<li><code>knockback_reduction: number</code><br />
 Reduce the knockback distance when pushed.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /><img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /></li>
-<li><code>back_dmg_bonus: numeric</code><br />
+<li><code>back_dmg_bonus: number</code><br />
 Increase the rate of the inflicted back damage.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /><img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /><img src="img/icon_skill.png" alt="" /></li>
-<li><code>back_dmg_reduction: numeric</code><br />
+<li><code>back_dmg_reduction: number</code><br />
 Reduce the rate of the received back damage.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /><img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /></li>
-<li><code>side_dmg_bonus: numeric</code><br />
+<li><code>side_dmg_bonus: number</code><br />
 Increase the rate of the inflicted side damage.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /><img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /><img src="img/icon_skill.png" alt="" /></li>
-<li><code>side_dmg_reduction: numeric</code><br />
+<li><code>side_dmg_reduction: number</code><br />
 Reduce the rate of the received side damage.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /><img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /></li>
-<li><code>front_dmg_bonus: numeric</code><br />
+<li><code>front_dmg_bonus: number</code><br />
 Increase the rate of the inflicted front damage.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /><img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /><img src="img/icon_skill.png" alt="" /></li>
-<li><code>front_dmg_reduction: numeric</code><br />
+<li><code>front_dmg_reduction: number</code><br />
 Reduce the rate of the received front damage.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /><img src="img/icon_equip.png" alt="" /><img src="img/icon_state.png" alt="" /></li>
 <li><code>immune_to_marks: id1, id2, ...</code><br />
@@ -280,7 +280,7 @@ Set the sprite's scale.<br />
 <li><code>sprite_tone: r,g,b,gray</code><br />
 Set the sprite's tone.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /></li>
-<li><code>sprite_hue: numeric</code><br />
+<li><code>sprite_hue: number</code><br />
 Set the sprite's hue.<br />
 <img src="img/icon_actor.png" alt="" /><img src="img/icon_enemy.png" alt="" /></li>
 <li><code>loop_animation: anim_id</code><br />
@@ -310,7 +310,7 @@ Use the actor's character in battle.<br />
 <li><code>character_name: string</code><br />
 Use the specified character in battle for the enemy.<br />
 <img src="img/icon_enemy.png" alt="" /></li>
-<li><code>character_index: numeric</code><br />
+<li><code>character_index: number</code><br />
 Set the character index.<br />
 <img src="img/icon_enemy.png" alt="" /> </li>
 <li><code>auto_turn_order_face</code><br />
