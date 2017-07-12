@@ -182,7 +182,7 @@ When a turn is accelerated, the battler's presence in the timeline take a step f
 <ul>
 <li>Before:<br />
 <img src="img/before_extraturn.png" alt="" /></li>
-<li>After Lucius used his skill to make Angela's turn instant:
+<li>After Lucius used his skill to make Angela's turn instant:<br />
 <img src="img/after_instantturn.png" alt="" />  </li>
 </ul>
 <p>The tag <code>extra_instant_turn: x%</code> has a similar effect, but instead of <strong>moving</strong> the battler on the timeline, the effect <strong>clones</strong> him.</p>
@@ -193,7 +193,7 @@ When a turn is accelerated, the battler's presence in the timeline take a step f
 <p>When a battler is charging a skill, he can be interrupted by others' attack. The default % of interrupting a charged skill is defined by the plugin parameter <code>Interrupt Chance</code>. To alter the odd of interrupting a skill, use the tag <code>interrupt_charge: +x%</code> or <code>interrupt_charge: -x%</code> on battlers, states and equipment.<br />
 Casters can defend themself against interruption with the tag <code>interrupt_charge_defense: +x%</code>.</p>
 <h2 id="limits">Limits</h2>
-<p>The way the timeline is designed right now impose certains limits to the timeline control effects. For instance, accelerating or decelerating the turn of a battler who already played his turn <strong>has no effect at all</strong>, obviously since the timeline is uni directional: at the end of the turn order, all effects are dissipated and turn turn order is restaured.  </p>
+<p>The way the timeline is designed right now imposes some limits to the timeline control effects. For instance, accelerating or decelerating the turn of a battler who already played his turn <strong>has no effect at all</strong>, obviously since the timeline is unidirectional: at the end of the turn order, all effects are dissipated and turn turn order is restaured.  </p>
 <p>[I have to add a pending effect in such case, to trigger acc/dec effects at the end of the turn order, on targets who already played their turn.]</p>
                 </section>
 
