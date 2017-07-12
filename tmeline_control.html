@@ -94,7 +94,7 @@
                                             Tile Effects, Marks & Auras
                                         </a>
                                     </li>
-                                                                    <li class="active">
+                                                                    <li class="">
                                         <a href="https://lecodemv.github.io/leTBS/summoning.html">
                                             Summoning
                                         </a>
@@ -114,7 +114,7 @@
                                             Eventing
                                         </a>
                                     </li>
-                                                                    <li class="">
+                                                                    <li class="active">
                                         <a href="https://lecodemv.github.io/leTBS/timeline_control.html">
                                             Timeline Control
                                         </a>
@@ -157,41 +157,44 @@
 
                 
                 <section class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
-                    <p>The add-on <code>LeTBS_Summoning</code> allows you to summon entities in battle.</p>
-<h2 id="call-an-entity">Call an Entity</h2>
-<p>Entities are called during an action sequence, with the command <code>summon: ID, cells</code>.</p>
-<h2 id="create-a-summon">Create a Summon</h2>
-<p>Look at the configuration file, inside the <code>Lecode.S_TBS.Config.Summons</code> module. Here's is the default summon template.</p>
-<pre><code class="language-javascript">"identification": {
-    active: true / false,
-    turn_order: "after_caster" / "remake",
-    visible_in_timeline: true / false,
-    type: "user_playable" / "ai_playable",
-    kind: "actor" / "enemy",
-    id: BATTLER_ID,
-    tied_to_caster: true / false,
-    stats: {
-        default: VALUE,
-        mhp: VALUE,
-        mmp: VALUE,
-        ...
-    }
-},</code></pre>
-<p>The called entity can be active or inactive. An active entity is added to the battle flow and will play his turns.<br />
-If <code>turn_order</code> is &quot;remake&quot;, the turn order will be calculated once again, to take into account the summoned entity's agility. Otherwise, the entity will be summoned in the timeline just after the caster's turn.<br />
-The summoned battler depends on the <code>kind</code> and the specified <code>id</code>.<br />
-If the summoned entity is tied to the caster, he'll die whenever the caster dies.  </p>
-<h2 id="stats">Stats</h2>
-<p>The summoned entity stats can be based on the caster's.
-Inside the <code>stats</code> option, you can setup which stat is based on the caster's same stat. The <code>default</code> sub-option is here for all non specified stats.<br />
-For instance:</p>
-<pre><code class="language-javascript">stats: {
-    default: "80%",
-    mhp: "200%",
-    mat: "+20%"
-}</code></pre>
-<p>Means that all stats except MHP and MAT will be equal to 80% of the caster same stats. The MHP otherwise will be equal to 200% of the caster MHP.
-The <code>+</code> sign in the last line specifies that the caster will keep his base stat, but will get an extra value from the caster. Here, 20% of the caster's MAT is added to the summoned entity's base MAT.</p>
+                    <p>The add-on <code>LeTBS_TimelineControl</code> allows you to use some effects to alter the battle flow.</p>
+<h2 id="effects">Effects</h2>
+<h3 id="extra-turn">Extra Turn</h3>
+<p>Battlers can get extra turn right after they play. The tag <code>extra_turn: x%</code> can be used on battlers, states and equipment to define the odd to get an extra turn when they end their turn.<br />
+When the <strong>tag is used on skills</strong>, they have a chance to give right away an extra turn to the target. Their presence in the timeline will be cloned.</p>
+<ul>
+<li>Before:<br />
+<img src="img/before_extraturn.png" alt="" /></li>
+<li>After Lucius used his skill to add an extra turn to Duran:<br />
+<img src="img/after_extraturn.png" alt="" /></li>
+</ul>
+<h3 id="turn-acceleration-amp-deceleration">Turn Acceleration &amp; Deceleration</h3>
+<p>It's possible to make a battler play his turn sooner, or later with <code>accelerate_turn: x%</code> and <code>decelerate_turn: x%</code>. They have to be used on skills, and <code>x</code> determines the odd to apply the change.
+When a turn is accelerated, the battler's presence in the timeline take a step forward, and a step backward when the turn is decelerated.</p>
+<ul>
+<li>Before:<br />
+<img src="img/before_extraturn.png" alt="" /></li>
+<li>After Lucius used his skill to accelerate Duran's turn:<br />
+<img src="img/after_accelerate.png" alt="" /></li>
+</ul>
+<h3 id="instant-turn">Instant Turn</h3>
+<p>The instant turn effect moves the target's presence in the timeline to make him play just after the caster. Skills can apply it with the tag <code>instant_turn: x%</code>, where <code>x</code> is the odd to apply the effect.  </p>
+<ul>
+<li>Before:<br />
+<img src="img/before_extraturn.png" alt="" /></li>
+<li>After Lucius used his skill to make Angela's turn instant:
+<img src="img/after_instantturn.png" alt="" />  </li>
+</ul>
+<p>The tag <code>extra_instant_turn: x%</code> has a similar effect, but instead of <strong>moving</strong> the battler on the timeline, the effect <strong>clones</strong> him.</p>
+<h3 id="charged-skills">Charged Skills</h3>
+<p>Charged skills are skills that require a certain amount of turn to be fully executed. To apply this effect, use the tag <code>charge: turns, animation_id</code> where <code>turns</code> is the amount of required turns, and <code>animation_id</code> the id of the animation that will be played during the charge.  </p>
+<p><strong>When a battler is charging a skill, the pose <code>charge</code> is used.</strong></p>
+<h4 id="interruption">Interruption</h4>
+<p>When a battler is charging a skill, he can be interrupted by others' attack. The default % of interrupting a charged skill is defined by the plugin parameter <code>Interrupt Chance</code>. To alter the odd of interrupting a skill, use the tag <code>interrupt_charge: +x%</code> or <code>interrupt_charge: -x%</code> on battlers, states and equipment.<br />
+Casters can defend themself against interruption with the tag <code>interrupt_charge_defense: +x%</code>.</p>
+<h2 id="limits">Limits</h2>
+<p>The way the timeline is designed right now impose certains limits to the timeline control effects. For instance, accelerating or decelerating the turn of a battler who already played his turn <strong>has no effect at all</strong>, obviously since the timeline is uni directional: at the end of the turn order, all effects are dissipated and turn turn order is restaured.  </p>
+<p>[I have to add a pending effect in such case, to trigger acc/dec effects at the end of the turn order, on targets who already played their turn.]</p>
                 </section>
 
             </div>

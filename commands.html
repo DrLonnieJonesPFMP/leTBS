@@ -79,7 +79,7 @@
                                             Sequences
                                         </a>
                                     </li>
-                                                                    <li class="">
+                                                                    <li class="active">
                                         <a href="https://lecodemv.github.io/leTBS/commands.html">
                                             Commands
                                         </a>
@@ -94,7 +94,7 @@
                                             Tile Effects, Marks & Auras
                                         </a>
                                     </li>
-                                                                    <li class="active">
+                                                                    <li class="">
                                         <a href="https://lecodemv.github.io/leTBS/summoning.html">
                                             Summoning
                                         </a>
@@ -157,41 +157,47 @@
 
                 
                 <section class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
-                    <p>The add-on <code>LeTBS_Summoning</code> allows you to summon entities in battle.</p>
-<h2 id="call-an-entity">Call an Entity</h2>
-<p>Entities are called during an action sequence, with the command <code>summon: ID, cells</code>.</p>
-<h2 id="create-a-summon">Create a Summon</h2>
-<p>Look at the configuration file, inside the <code>Lecode.S_TBS.Config.Summons</code> module. Here's is the default summon template.</p>
-<pre><code class="language-javascript">"identification": {
-    active: true / false,
-    turn_order: "after_caster" / "remake",
-    visible_in_timeline: true / false,
-    type: "user_playable" / "ai_playable",
-    kind: "actor" / "enemy",
-    id: BATTLER_ID,
-    tied_to_caster: true / false,
-    stats: {
-        default: VALUE,
-        mhp: VALUE,
-        mmp: VALUE,
-        ...
-    }
-},</code></pre>
-<p>The called entity can be active or inactive. An active entity is added to the battle flow and will play his turns.<br />
-If <code>turn_order</code> is &quot;remake&quot;, the turn order will be calculated once again, to take into account the summoned entity's agility. Otherwise, the entity will be summoned in the timeline just after the caster's turn.<br />
-The summoned battler depends on the <code>kind</code> and the specified <code>id</code>.<br />
-If the summoned entity is tied to the caster, he'll die whenever the caster dies.  </p>
-<h2 id="stats">Stats</h2>
-<p>The summoned entity stats can be based on the caster's.
-Inside the <code>stats</code> option, you can setup which stat is based on the caster's same stat. The <code>default</code> sub-option is here for all non specified stats.<br />
-For instance:</p>
-<pre><code class="language-javascript">stats: {
-    default: "80%",
-    mhp: "200%",
-    mat: "+20%"
-}</code></pre>
-<p>Means that all stats except MHP and MAT will be equal to 80% of the caster same stats. The MHP otherwise will be equal to 200% of the caster MHP.
-The <code>+</code> sign in the last line specifies that the caster will keep his base stat, but will get an extra value from the caster. Here, 20% of the caster's MAT is added to the summoned entity's base MAT.</p>
+                    <h2 id="setup-battle-commands">Setup Battle Commands</h2>
+<p>The battle command is defined following a script.
+The default script can be found in the plugin parameter
+<code>Commands</code> of the add-on. This is the default script:</p>
+<pre><code>move 82, attack 76, [extra], skills 64, items 182, scan 75, pass 84</code></pre>
+<p>The format of each element of the script is: <code>[command_id] [icon_index]</code>.
+The default command IDs are:</p>
+<ul>
+<li><code>move</code>: Move action</li>
+<li><code>attack</code>: The default attack command</li>
+<li><code>skills</code>: Use skills</li>
+<li><code>items</code>: Use items</li>
+<li><code>scan</code>: Let you examine battlers and the battle field</li>
+<li><code>pass</code>: End the turn</li>
+</ul>
+<p>The <code>[extra]</code> element is a placeholder for commands that are added during the battle, through states for instance.<br />
+<code>[icon_index]</code> is optional.</p>
+<h3 id="custom-commands-per-actor">Custom Commands Per Actor</h3>
+<p>Actors can have their own battle commands. Use this complete tag inside battlers or states notebox:</p>
+<pre><code>&lt;letbs_commands&gt;
+script here...
+&lt;/letbs_commands&gt;</code></pre>
+<p>Example:</p>
+<pre><code>&lt;letbs_commands&gt;
+move 82, [extra], attack 1, pass 84
+&lt;/letbs_commands&gt;</code></pre>
+<h2 id="shortcut-commands">Shortcut Commands</h2>
+<p>You can create commands that act like shortcuts to skills and items. In that case, <code>[command_id]</code> can be replaced with:</p>
+<ul>
+<li><code>skill[ID]</code> : a shortcut to the specified skill</li>
+<li><code>item[ID]</code> : a shortcut to the specified item</li>
+</ul>
+<p>If <code>[icon_index]</code> is missing, the specified object's icon index will be used.<br />
+Example:<br />
+<code>move 82, skill[18], item[1] 5, pass 84</code>.</p>
+<h2 id="extra-commands">Extra Commands</h2>
+<p>Equipment and states can add extra commands to the battler's commands window. They are set at the <code>[extra]</code> position. For instance, let's take a dummy battler with the following commands: <code>move, [extra], pass</code>, and a state with the following tag:</p>
+<pre><code>&lt;letbs_commands&gt;
+skill[18], skill[20]
+&lt;/letbs_commands&gt;</code></pre>
+<p>The battler will have in fine the following commands: <code>move, skill[18], skill[20], pass</code>.</p>
                 </section>
 
             </div>
