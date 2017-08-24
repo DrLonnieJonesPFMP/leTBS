@@ -119,6 +119,11 @@
                                             Timeline Control
                                         </a>
                                     </li>
+                                                                    <li class="">
+                                        <a href="https://lecodemv.github.io/leTBS/multi_selection.html">
+                                            Multi Selection
+                                        </a>
+                                    </li>
                                                             </ul>
                                                     <p class="text-muted">
                                 Resources
@@ -157,11 +162,11 @@
 
                 
                 <section class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
-                    <p>Sequences are used when an action is executed. They define what your actions actually do.  A sequence is a list of commands to execute while the action is playing. The commands vary from altering sprites to dealing damage. Sequences are played by the battlers.</p>
-<h2 id="call-a-sequence">Call a sequence</h2>
+                    <p>Most of the sequences are used when an action is executed. They define what your actions actually do.  A sequence is a list of commands to execute, one by one, in order. The commands vary from altering sprites to dealing damage.</p>
+<h2 id="call-a-sequence">Call A Sequence</h2>
 <p>You can attach a sequence to skills, items and weapons using the tag <code>sequence: id</code>, where <code>id</code> is the identifier of the sequence. The specified sequence will be played once the object is used in battle.<br />
 When a sequence isn’t defined, a default one is used.</p>
-<h2 id="default-sequences">Default sequences</h2>
+<h2 id="default-sequences">Default Sequences</h2>
 <p>Here are the predefined sequences. They are in the <code>configuration file</code>:  </p>
 <ul>
 <li><code>battle_start</code> : Called when the battle start. This sequence is empty by default.</li>
@@ -183,8 +188,8 @@ When a sequence isn’t defined, a default one is used.</p>
 <li><code>summon</code> : A template sequence called for summoning an entity.</li>
 </ul>
 <h2 id="overloading-sequences">Overloading Sequences</h2>
-<p>(Coming Soon)  </p>
-<h2 id="creating-a-sequence">Creating a sequence</h2>
+<p>(To Update)  </p>
+<h2 id="creating-a-sequence">Creating A Sequence</h2>
 <p>There are two ways to create a sequence, using a tag, or inside the configuration file.  </p>
 <h3 id="1--using-a-tag">1- Using a tag:</h3>
 <pre><code>&lt;letbs_Sequence&gt;
@@ -192,17 +197,19 @@ command1: parameter1, parameter2, ...
 command2: parameter1, parameter2, ...
 ...
 &lt;/letbs_Sequence&gt;</code></pre>
-<p>Using this method, the <code>tag sequence: id</code> is useless. That sequence will be used so there is no use of that tag.  </p>
+<p>Using this method, the tag <code>sequence: id</code> is useless. The defined sequence will be used so there is no use of that tag.  </p>
 <h3 id="2--inside-the">2- Inside the <code>configuration file</code>:</h3>
-<p>Insert the following template in the <code>Lecode.S_TBS.Config.Sequences section</code>.  </p>
+<p>Insert the following template in the <code>Lecode.S_TBS.Config.Sequences</code> section.  </p>
 <pre><code class="language-javascript">"ID": [
     "command1: parameter1, parameter2, ...",
     "command2: parameter1, parameter2, ...",
     "...",
 ],</code></pre>
-<h2 id="building-the-sequence">Building the sequence</h2>
+<h2 id="template-sequences">Template Sequences</h2>
+<p>(To Update)</p>
+<h2 id="building-the-sequence">Building The Sequence</h2>
 <p>A sequence is defined by a list of commands, and each command has parameters. Use the commands listed bellow properly to get the desired effects.<br />
-Here's the content of the <code>atk</code> sequence:  </p>
+For instance, here's the content of the <code>atk</code> sequence:  </p>
 <pre><code class="language-javascript">"atk": [
     "play_pose: user, atk",
     "wait: 10",
@@ -211,17 +218,17 @@ Here's the content of the <code>atk</code> sequence:  </p>
 ],</code></pre>
 <p>That sequence does the following actions in this order:</p>
 <ul>
-<li>Calls the pose <code>atk</code> on the user of that sequence.</li>
+<li>Calls the pose <code>atk</code> on the user.</li>
 <li>Waits 10 frames.</li>
 <li>Triggers the effects of the object on all battlers in the selected AoE, playing that object's animation.</li>
 <li>Waits 60 frames.  </li>
 </ul>
-<h2 id="selecting-entities-and-cells">Selecting entities and cells</h2>
-<p>Most of the commands take a cells or designated entities as a parameter. For example the command <code>play_pose</code> make specific entities play a pose. Selecting entities and cells is done by using a key word as a parameter. In the command <code>play_pose: user, atk</code>, <strong><code>user</code></strong> is a key word who targets the user of the sequence.</p>
-<h3 id="entities-key-words-">Entities key words :</h3>
+<h2 id="selecting-entities-and-cells">Selecting Entities And Cells</h2>
+<p>Most of the commands use cells or designated entities as a parameter. For example the command <code>play_pose</code> make the designated entities play a pose. Selecting entities and cells is done by using a key word as a parameter. In the command <code>play_pose: user, atk</code>, <strong><code>user</code></strong> is a key word who targets the entity executing the sequence.</p>
+<h3 id="entities-key-words-">Entities Key Words :</h3>
 <ul>
 <li><code>{aoe}_battlers</code> : Selects all battlers in the AoE.</li>
-<li><code>{aoe}_allies</code> : Selects all actors in the AoE.</li>
+<li><code>{aoe}_allies</code> : Selects all allies in the AoE.</li>
 <li><code>{aoe}_enemies</code> : Selects all enemies in the AoE.</li>
 <li><code>cursor_battler</code> : Selects the entity on the cursor cell.</li>
 <li><code>cursor_ally</code> : Selects the ally on the cursor cell.</li>
@@ -246,7 +253,7 @@ Here's the content of the <code>atk</code> sequence:  </p>
 <li><code>last_targets</code> : Use the last selected targets.  </li>
 <li><code>saved</code> : Use saved targets.  </li>
 </ul>
-<h3 id="cells-key-words-">Cells key words :</h3>
+<h3 id="cells-key-words-">Cells Key Words :</h3>
 <ul>
 <li><code>{aoe}</code> : Selects all cells in the AoE.</li>
 <li><code>cursor_cell</code> : Selects the cursor cell.</li>

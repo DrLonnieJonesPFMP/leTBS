@@ -119,6 +119,11 @@
                                             Timeline Control
                                         </a>
                                     </li>
+                                                                    <li class="">
+                                        <a href="https://lecodemv.github.io/leTBS/multi_selection.html">
+                                            Multi Selection
+                                        </a>
+                                    </li>
                                                             </ul>
                                                     <p class="text-muted">
                                 Resources
@@ -194,7 +199,7 @@ That string is evaluated during the processing phase to determine if it is usabl
 Example: <code>use_condition: b.hpRate() &lt;= 0.6</code>.<br />
 The skill is used only if the target's HP is bellow or equal 60% of it's MHP.  </li>
 <li><strong><code>summon_near: string</code></strong> :<br />
-Used with summon type skills to indicated where to summon. Near <code>caster</code>, <code>enemies</code> or <code>allies</code>.  </li>
+Used with summon type skills to indicated where to summon. Near <code>caster</code>, <code>enemies</code> or <code>allies</code>. </li>
 </ul>
 <h2 id="behavior-order">Behavior Order</h2>
 <p>This is the default behavior order:  </p>
@@ -206,6 +211,8 @@ Used with summon type skills to indicated where to summon. Near <code>caster</co
 <li>Offense  </li>
 </ul>
 <p>The AI checks available behaviors in this order. The first available behavior if chosen and played.  </p>
+<h3 id="beware-of-always-available-skills">Beware Of Always Available Skills</h3>
+<p>Following the behavior order, the AI uses available skills right away, and always, as long as they can be used. That's why using cooldown is mandatory here. For instance if a summon skill is always available and usable, the AI will uses it every turn. You need to set up a cooldown so that it can execute the other behaviors. Use Yanfly's CD plugin.</p>
 <h2 id="creating-behaviors">Creating Behaviors</h2>
 <p>AI behaviors are configured in the <code>Lecode.S_TBS.Config.AI</code> module. A behavior is like an action sequence, a list of commands.  </p>
 <p>(WIP)</p>

@@ -119,6 +119,11 @@
                                             Timeline Control
                                         </a>
                                     </li>
+                                                                    <li class="">
+                                        <a href="https://lecodemv.github.io/leTBS/multi_selection.html">
+                                            Multi Selection
+                                        </a>
+                                    </li>
                                                             </ul>
                                                     <p class="text-muted">
                                 Resources
@@ -219,6 +224,21 @@ The following scope options are available:</p>
 <h2 id="move-scope-options">Move Scope Options</h2>
 <p>(WIP, this tag is mostly useless given that the options don't behave well with the move scope)<br />
 It's possible to apply options to the move scope. Use the tag <code>move_scope_options: string1, string2, ...</code> and the same options as in the section Scope Options.</p>
+<h2 id="scope-restrictions">Scope Restrictions</h2>
+<p>It's possible to restrict a scope to only target some battlers. Use the tag <code>scope_select: type</code>, where <code>type</code> can be:</p>
+<ul>
+<li><code>allies</code> : Only allies in the scope are selectable.</li>
+<li><code>enemies</code> : Only enemies in the scope are selectable.</li>
+<li><code>flaggedEntity(ID)</code> : Only the flagged entity can be selected.  </li>
+<li><code>actorId(ID)</code> : Only the designated actor can be selected.</li>
+<li><code>enemyId(ID)</code> : Only the designated enemy can be selected.</li>
+<li><code>summons</code> : Only summons can be selected.</li>
+<li><code>own_summons</code> : Only the caster's summons can be selected.</li>
+<li><code>enemy_summons</code> : Only enemy summons can be selected.</li>
+</ul>
+<h2 id="combine-scopes">Combine Scopes</h2>
+<p>It's also possible to combine scopes. Separate each of the scopes with <code>;</code>.<br />
+Example: <code>scope: circle(3);line(4)</code></p>
                 </section>
 
             </div>
